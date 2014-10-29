@@ -1,0 +1,15 @@
+var Utils = require('../build/Release/MyLibrary.node');
+
+UTest({
+	'should print hello' () {
+		eq_(Utils.ToUpperCase('hello'), 'HELLO');
+	},
+
+	'calc async' (done) {
+		
+		Utils.CalcAsync([1, 2, 3, 4], assert.await((sum) => {
+			eq_(sum, 10);
+			done();
+		}));
+	}
+})

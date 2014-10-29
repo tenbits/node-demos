@@ -1,0 +1,12 @@
+{
+	"atma": {
+		"plugins": [
+			"atma-loader-traceur"
+		],
+		"settings": {
+			"atma-loader-traceur": {
+				"extensions": "es6"
+			}
+		}
+	}
+}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-framework="atmajs">
+	<head>
+		<meta charset="utf-8">
+		<title>Atma.js • TodoMVC</title>
+		
+	<link rel="stylesheet" href="style.css"></head>
+	<body>
+	<!--
+		
+		TodoMVC Atma.js Application
+	
+		1. Read readme.md - you will get basic information about the libraries
+		2. Hint: Viewing *.mask files enable javascript or less syntax highlighting in your IDE
+	
+	
+		The application structure guide:
+	
+		- Controls
+			todo:input;
+	
+		- Components
+			:app\
+				:filter;
+				:todoList\
+					:todoTask;
+	
+	
+		Scripts overview (sorted from the most atomic parts up to the application component):
+			js/
+				model/Todos.js
+				cntrl/input.js
+				filter/filter.js
+				todoList/
+					todoTask/todoTask.js
+					todoList.js
+				app.js
+				
+		_If the controller loads a template, do not forget to review that._
+	 -->
+	 
+		
+		
+
+		
+		
+		
+		
+		
+		
+
+	<div id="build.release.xhr" style="display: none;" hidden="hidden"><script type="include/load" id="includejs-jscompotodoListtodoListmask" data-appuri="/js/compo/todoList/todoList.mask"> input #toggle-all
+	type = checkbox
+	checked = '~[bind: status.todoCount == 0 ? "checked" ]'
+	x-signal = 'click: toggleAll'
+	;
+	
+label for='toggle-all' > 'Mark all as complete'
+
+ul #todo-list {
+	// bind todos collection
+	+each (.) > :todoTask;
+} </script>
+<script type="include/load" id="includejs-jscompotodoListtodoTasktodoTaskmask" data-appuri="/js/compo/todoList/todoTask/todoTask.mask"> define :todoTask:view > .view{
+	input.toggle type=checkbox {
+		:dualbind
+			value = 'completed'
+			// emit signal when INPUTs state changes via user input
+			x-signal = 'dom: taskChanged'
+			;
+	}
+	label > '~[bind:title]';	
+	button.destroy x-signal = 'click: taskRemoved';
+}
+define :todoTask:edit >
+	todo:input.edit
+			// do not clear input after edit
+			preserve
+			// emit signal on custom event `cancel`
+			x-signal = 'cancel: inputCanceled' {
+
+				:dualbind
+					value = 'title'
+					// change model on custom event `enter` defined in the control
+					change-event = 'enter'
+					// emit `taskChange` signal each time model is changed
+					// via user input
+					x-signal = 'dom: taskChanged'
+					;
+			}
+
++if($c._isVisible(completed, action)) >
+	li
+		.~[bind:completed ? 'completed']
+		.~[bind:state]
+		// emit `edit` on `dblclick` event
+		x-signal = 'dblclick: edit'
+		{
+			:todoTask:view;
+			:todoTask:edit;
+		} </script>
+<script type="include/load" id="includejs-jscompofilterfiltermask" data-appuri="/js/compo/filter/filter.mask"> var filters = {
+	'' : 'All',
+	'active': 'Active',
+	'completed': 'Completed'
+};
+
+ul #filters >
+	for ((key, val) in filters) {
+		// compare with the scoped value `action`
+		li >
+			a .~[bind: action == key ? 'selected' ] href = '#~[key]' >
+				'~[val]'
+	} </script>
+<script type="include/load" id="includejs-jsappmask" data-appuri="/js/app.mask"> section #todoapp {
+	header #header {
+		h1 > 'todos'
+
+		todo:input #new-todo
+			autofocus
+			placeholder = 'What needs to be done?'
+			x-signal = 'enter: newTask'
+			;
+	}
+	
+	+if (status.count) {
+		section #main >
+			:todoList;
+			
+		footer #footer {
+			
+			span #todo-count {
+				strong > '~[bind: status.todoCount]'
+				span > ' item~[bind: status.todoCount != 1 ? "s"] left'
+			}
+
+			:filter;
+
+			+if (status.completedCount > 0) {
+				button #clear-completed x-signal = 'click: removeAllCompleted' >
+					'Clear completed (~[bind:status.completedCount])'
+			}
+		}
+	}
+}
+footer #info {
+	p { 'Double-click to edit a todo' }
+	p { 'Created by ' a href='http://github.com/tenbits' > 'tenbits' }
+	p { 'Part of ' a href='http://todomvc.com' > 'TodoMVC' }
+} </script></div><script type="text/javascript" src="script.js"></script></body>
+</html>

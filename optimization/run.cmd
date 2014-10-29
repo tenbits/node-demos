@@ -1,0 +1,1 @@
+node.exe --trace_opt --trace_deopt --allow-natives-syntax %*
