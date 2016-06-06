@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Read my Call</title>
+</head>
+<body>
+<link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
+<link rel='stylesheet' href='bower_components/bootstrap-material-design/dist/css/material.css' />
+<link rel='stylesheet' href='bower_components/bootstrap-material-design/dist/css/ripples.min.css' />
+<link rel='stylesheet' href='styles/spinner.css' />
+<script src='scripts/spinner.js'></script>
+
+
+<script src='bower_components/jquery/dist/jquery.min.js'></script>
+<script src='bower_components/includejs/lib/include.js'></script>
+<script src='bower_components/maskjs/lib/mask.js'></script>
+<script src='bower_components/mask-animation/lib/mask.animation.js'></script>
+<script src='bower_components/bootstrap/dist/js/bootstrap.js'></script>
+<script src='bower_components/bootstrap-material-design/dist/js/material.js'></script>
+<script src='bower_components/bootstrap-material-design/dist/js/ripples.min.js'></script>
+
+
+<script src='public/scripts/main.js'></script>
+
+<script type='text/mask' data-run='true'>
+	
+	//import SpectrumDrawer from 'public/mask/SpectrumDrawer.mask';
+
+	define SpectrumDrawer {
+		
+
+		function onRenderEnd() {
+
+			var ctx 	 = this.$.get(0).getContext("2d");;
+			var gradient = ctx.createLinearGradient(0,0,0,300);
+		    gradient.addColorStop(1,'#000000');
+		    gradient.addColorStop(0.75,'#ff0000');
+		    gradient.addColorStop(0.25,'#ffff00');
+		    gradient.addColorStop(0,'#ffffff');
+
+		    this.ctx = ctx;
+		    this.gradient = gradient;
+		}
+
+		function grayOut () {
+			var count = 512;
+			var arr = [];
+			while (--count > -1)  arr.push(30);
+			this.refresh(arr, '#444444');
+		}
+		
+		function refresh (array, gradient) {
+			this.ctx.clearRect(0, 0, 500, 200);
+			this.ctx.fillStyle = gradient || this.gradient;
+			this.draw(array);
+		}
+		function draw (array) {
+			var height = 200;
+			for ( var i = 0; i < (array.length); i++ ){
+	            var value = array[i];
+	            if (value === 0) {
+	            	value = 30;
+	            }
+	            this.ctx.fillRect(i*5,220-value,3,220);
+	        }
+		}
+
+		canvas width=500 height=200 style='background-color:white;';
+	}
+
+	.page name='main' {
+		header {
+			SpectrumDrawer;
+		}
+		h4 > 'Letters: ~[bind:letters]'
+		section #main {
+			.tilt-spinner {
+
+				.actions {
+					+if (state == 'start') {
+						button.btn.btn-fab.btn-raised.btn-primary x-tap='listenStart' > i.mdi-av-play-arrow;
+					}
+					else {
+						button.btn.btn-fab.btn-raised.btn-warning x-tap='listenStop' > i.mdi-av-pause;	
+					}
+				}
+			}
+		}
+	}
+
+	.page.active name='login' style='padding: 50px; background: white;'{
+		h2 > 'Login'
+
+		.row style='padding: 0px 20px;'{
+			input .form-control placeholder='Username';
+		}
+		.row style='padding: 0px 20px;'{
+			input .form-control placeholder='Password';
+		}
+		hr;
+		.row style='text-align: right;' {
+			button .btn.btn-success x-tap='login' {
+				i.mdi-action-exit-to-app;
+				' Login'
+			} 
+		}
+	}
+
+	style {
+
+		html, body {
+			height: 100%;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.page { 
+			display: none; 
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+		}
+		.page.active {
+			display: block;
+		}
+
+		.actions {
+			position:absolute;
+			top: 50%;
+			left: 50%;
+			margin-left: -28px;
+			margin-top: -35px;
+		}
+		.actions > button {
+			
+		}
+
+		.tint-spinner-wrapper {
+			margin: 0 auto;
+  			top: 20px;
+		}
+		.tilt-spinner {
+			background-color: #ff5722; 
+			display: inline-block;
+			margin: 0 auto;
+			position:relative;
+
+		}
+	}
+	
+</script>
+
+</body>
+</html>

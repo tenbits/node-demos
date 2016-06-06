@@ -1,0 +1,39 @@
+
+.-cl-month {
+	
+	+each (.) baz {
+		table {
+			tr {
+				td > ' '
+				each (days) >
+					td > '~[number]'
+			}
+			+each (calendars) {
+				tr data-username='~[username]' x-time-picker-row {
+					td > '~[username]'
+					
+					+each ($c.getDienste(username)) {
+						if (length) >
+							td >
+								div style='width:100%; white-space:nowrap;' >
+									each (.) >
+										
+											.-cl-dienst-type style='
+												background: ~[color];
+												height:100%;
+												width:~[:100 / $c.parent.model.length]%;
+												display: inline-block;
+												'
+												
+												data-dienst='~[_id]'
+												>
+													'~[name]'
+						else >
+							td > ' '
+					}			
+				}
+			}
+			
+		}
+	}
+}

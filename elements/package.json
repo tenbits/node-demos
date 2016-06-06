@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "atma-loader-traceur": ">0.0.0"
+    },
+    "atma": {
+        "plugins": [
+            "atma-loader-traceur"
+        ]
+    }
+}

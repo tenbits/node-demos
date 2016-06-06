@@ -1,0 +1,12 @@
+
+.-filereader-input {
+	
+	+if (message) {
+		.-fr-notification > '~[bind: message]'
+	}
+	
+	input.-fr-input type=file;
+	
+	.-fr-dropzone;
+	
+}

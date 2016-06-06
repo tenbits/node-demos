@@ -1,0 +1,31 @@
+
+:dialog {
+	
+	.-ical-importer {
+		:filereader-input;
+		
+		.statuses;
+		
+		hr;
+		.form-group.btns-row {
+			
+			button.btn.btn-primary.btn-sm x-signal='click: dialogCancel'
+				> 'OK'
+		}
+	}
+}
+
+:template #import-statuses {
+	
+	each (statuses) {
+		
+		p.~[: status == 'error' ? 'bg-danger' : 'bg-success' ] style='margin-top: 4px; padding: 3px;' {
+			tt > "~[username] (~[type]) ~[format: date, 'dd-MM, yyyy']"
+			
+			if (message) {
+				div > '~[message]'
+			}
+		}
+	}
+	
+}

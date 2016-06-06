@@ -1,0 +1,51 @@
+
+.-cl-day.__timeline {
+	
+	.-cl-title >
+		:html >
+			'&nbsp;'
+	
+	.-cl-dienste {
+		if (!$a.single) >
+			+each (calendars) {
+				
+				.-cl-dienst
+					style='border-left: 1px solid ~[color]'
+					data-user='~[username]' {
+					
+						'~[username]'
+					
+				}
+			}
+		else {
+			+if (calendars.length) {
+				.-cl-dienst.column {
+					.-cl-dienst-user >
+						:html >
+							'&nbsp;'
+					table >
+						tr >
+							td >
+								:html >
+									'&nbsp;'
+					
+				}
+			}
+		}
+	}
+	
+	.-cl-day-container {
+		
+		.-cl-time-range;
+		
+		.-cl-day-grid {
+			
+			+each (cells) >
+				.-cl-day-grid-cell.time-cell >
+					'~[time]'
+				
+			.-cl-timeline-now style='top: ~[bind:now.top]%';
+			
+		}
+	}
+}

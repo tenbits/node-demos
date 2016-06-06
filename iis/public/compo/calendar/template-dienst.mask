@@ -1,0 +1,30 @@
+
+.-dienst-pop data-dienst='~[_id]'{
+	
+	.termin-pop-title {
+		i.glyphicon.glyphicon-bookmark style='color: ~[color]';
+		'~[: type || tag]' em > ' ~[:type ? "Schicht" : "Sonstige"]'
+	}
+	
+	.termin-pop-description style='padding: 5px 0px; '>
+		'~[format: date, "dd. MMM yyyy, HH:mm"]'
+		
+	.termin-pop-createdBy style='text-align:right;'>
+		i > '(~[createdBy])'
+	
+	hr;
+	
+	.row style='min-width: 250px;' {
+		.col-md-2 >
+			button.btn.btn-default  x-signal='click:pop_dienstRemove;click:popoverClose' {
+				i.glyphicon.glyphicon-trash;
+				' Löschen'
+			}
+		.col-md-5;
+		.col-md-2 >
+			button.btn.btn-default x-signal='click:pop_dienstEdit;click:popoverClose' {
+				i.glyphicon.glyphicon-pencil;
+				' Bearbeiten'
+			}
+	}
+}

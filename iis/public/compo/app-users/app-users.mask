@@ -1,0 +1,109 @@
+
+.row {
+	.col-md-2 > a.btn.btn-link href='/settings' > '⇦ Zurück'
+	.col-md-10 > .-view {
+		.-app-users {
+			
+			h3 > 'Mitarbeiter'
+			
+			ul.l-users >
+				+each(users) {
+					li.l-user id='~[_id]' {
+						.l-user-username > '~[username]'
+						
+						.btn-group.btn-group-xs {
+								
+							button.btn.btn-danger  .btnUserRemove >
+								span.glyphicon.glyphicon-trash;
+								
+							button.btn.btn-primary .btnUserEdit >
+								span.glyphicon.glyphicon-pencil;
+						}
+					}
+				}
+				
+			hr;
+			
+			button.btn.btn-success x-signal='click: userCreateNew' >
+				span.glyphicon.glyphicon-plus
+					> 'Hinzufügen'
+		}
+	}
+}
+
+:dialog #createNew {
+	
+	h4 > '~[bind:dialogTitle]'
+	
+	div {
+		.form-group >
+			.input-group x-tooltip='2-5 Buchstaben Kennung' {
+					
+					span.input-group-addon.glyphicon.glyphicon-flag;
+					input
+						.form-control
+						type=text
+						name=inputUsername
+						placeholder='Nutzername'
+						disabled="~[bind: dialogMode=='edit' ? 'disabled']" >
+							:dualbind value='user.username';
+				}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon.glyphicon.glyphicon-asterisk;
+				input.form-control name=inputPassword type=password placeholder='Passwort' >
+					:dualbind value='user.password';
+				
+				span.input-group-addon.glyphicon.glyphicon-eye-open style='cursor: pointer' x-signal='click: viewPassword';
+			}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon.glyphicon.glyphicon-user;
+				input.form-control name=inputPassword placeholder='Vorname' >
+					:dualbind value='user.name';
+			}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon.glyphicon.glyphicon-user;
+				input.form-control name=inputPassword placeholder='Name' >
+					:dualbind value='user.surname';
+			}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon > '@';
+				input.form-control name=inputEmail type=email placeholder='Email' >
+					:dualbind value='user.email';
+			}
+		.form-group >
+			.input-group { 
+				
+				 .checkbox >
+					label {
+					  input #chbIsAdmin type="checkbox" >
+						:bind expression='user.role == "admin" ? "checked" : ""';
+						
+					  'Administrator'
+					}
+			}
+	}
+	
+	.btns-row {
+		button.btn.btn-primary x-signal='click: dialogSave' > 'Speichern'
+		button.btn.btn-sm.btn-danger x-signal='click: dialogCancel' > 'Abbrechen'
+	}
+	
+	
+	:animation #dialog-show {
+		'transform | translateY(-100%) > translateY(0%) | 200ms ease-in'
+		'opacity | 0 > 1 | 300ms ease-in'
+	}
+	
+	:animation #dialog-hide {
+		'transform | translateY(0%) > translateY(-100%) | 200ms ease-in'
+		'opacity | 1 > 0 | 200ms ease-in'
+	}
+}

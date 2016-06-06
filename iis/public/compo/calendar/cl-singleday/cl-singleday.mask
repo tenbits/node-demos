@@ -1,0 +1,72 @@
+.-cl-day data-date='~[date]' {
+	
+	.-cl-title.-cl-title-day.~[todayClass] x-pipe-signal='click: calendar.dayShow' >
+		'~[title]'
+	
+	.-cl-dienste {
+		
+		each (dienste) {
+			
+			.-cl-dienst.column
+				style='width: ~[: 100 / $c.parent.model.length]%'
+				
+				data-dienst='~[_id]'
+				data-user='~[user.username]' {
+				
+					.-cl-dienst-user >
+						'~[user.name] ~[user.surname]'
+					
+					table style='width: 100%; table-layout: fixed;' >
+						tr {
+							
+							if (dienste.length) >
+								each (dienste) >
+									td {
+										.-cl-dienst-type data-dienst='~[_id]' style='background: ~[color]' >
+											'~[name]'
+									}
+							else >
+								td >
+									:html > '&nbsp;'
+									//.-cl-dienst-type style='background: red'  > :html > '&nbsp;'
+						}
+			}
+		}
+	}
+	
+	.-cl-day-container {
+		
+		.-cl-day-grid.~[todayClass] {
+			
+			each (cells) >
+				.-cl-day-grid-cell;
+				
+			if (todayClass) >
+				.-cl-day-now style='top:~[now.top]%';
+			
+			if (hiddenTop) >
+				.-cl-day-hidden-termine name=top x-tooltip='spätere Termine' >
+					'~[hiddenTop]'
+			
+			if (hiddenBottom) >
+				.-cl-day-hidden-termine name=bottom x-tooltip='frühere Termine'  >
+					'~[hiddenBottom]'
+		}
+		
+		.-cl-termine width='100%'{
+			
+			each (termine) {
+				
+				.-cl-termin-column x-time-picker data-username='~[username]'
+					style='
+						width: ~[: 100 / $c.parent.model.length]%;
+						left: ~[: $c.index * (100 / $c.parent.model.length)]%;
+					' {
+					
+					each (termine) >
+						:termin;
+				}
+			}
+		}
+	}
+}

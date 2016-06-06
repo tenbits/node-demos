@@ -1,0 +1,1357 @@
+<script type='include/load' id='includejs-publiccontrolicalimportericalimportermask' data-appuri='/public/control/ical-importer/ical-importer.mask'> 
+:dialog {
+	
+	.-ical-importer {
+		:filereader-input;
+		
+		.statuses;
+		
+		hr;
+		.form-group.btns-row {
+			
+			button.btn.btn-primary.btn-sm x-signal='click: dialogCancel'
+				> 'OK'
+		}
+	}
+}
+
+:template #import-statuses {
+	
+	each (statuses) {
+		
+		p.~[: status == 'error' ? 'bg-danger' : 'bg-success' ] style='margin-top: 4px; padding: 3px;' {
+			tt > "~[username] (~[type]) ~[format: date, 'dd-MM, yyyy']"
+			
+			if (message) {
+				div > '~[message]'
+			}
+		}
+	}
+	
+} </script>
+<script type='include/load' id='includejs-publiccompoappusersappusersmask' data-appuri='/public/compo/app-users/app-users.mask'> 
+.row {
+	.col-md-2 > a.btn.btn-link href='/settings' > '⇦ Zurück'
+	.col-md-10 > .-view {
+		.-app-users {
+			
+			h3 > 'Mitarbeiter'
+			
+			ul.l-users >
+				+each(users) {
+					li.l-user id='~[_id]' {
+						.l-user-username > '~[username]'
+						
+						.btn-group.btn-group-xs {
+								
+							button.btn.btn-danger  .btnUserRemove >
+								span.glyphicon.glyphicon-trash;
+								
+							button.btn.btn-primary .btnUserEdit >
+								span.glyphicon.glyphicon-pencil;
+						}
+					}
+				}
+				
+			hr;
+			
+			button.btn.btn-success x-signal='click: userCreateNew' >
+				span.glyphicon.glyphicon-plus
+					> 'Hinzufügen'
+		}
+	}
+}
+
+:dialog #createNew {
+	
+	h4 > '~[bind:dialogTitle]'
+	
+	div {
+		.form-group >
+			.input-group x-tooltip='2-5 Buchstaben Kennung' {
+					
+					span.input-group-addon.glyphicon.glyphicon-flag;
+					input
+						.form-control
+						type=text
+						name=inputUsername
+						placeholder='Nutzername'
+						disabled="~[bind: dialogMode=='edit' ? 'disabled']" >
+							:dualbind value='user.username';
+				}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon.glyphicon.glyphicon-asterisk;
+				input.form-control name=inputPassword type=password placeholder='Passwort' >
+					:dualbind value='user.password';
+				
+				span.input-group-addon.glyphicon.glyphicon-eye-open style='cursor: pointer' x-signal='click: viewPassword';
+			}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon.glyphicon.glyphicon-user;
+				input.form-control name=inputPassword placeholder='Vorname' >
+					:dualbind value='user.name';
+			}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon.glyphicon.glyphicon-user;
+				input.form-control name=inputPassword placeholder='Name' >
+					:dualbind value='user.surname';
+			}
+		
+		.form-group >
+			.input-group {
+				span.input-group-addon > '@';
+				input.form-control name=inputEmail type=email placeholder='Email' >
+					:dualbind value='user.email';
+			}
+		.form-group >
+			.input-group { 
+				
+				 .checkbox >
+					label {
+					  input #chbIsAdmin type="checkbox" >
+						:bind expression='user.role == "admin" ? "checked" : ""';
+						
+					  'Administrator'
+					}
+			}
+	}
+	
+	.btns-row {
+		button.btn.btn-primary x-signal='click: dialogSave' > 'Speichern'
+		button.btn.btn-sm.btn-danger x-signal='click: dialogCancel' > 'Abbrechen'
+	}
+	
+	
+	:animation #dialog-show {
+		'transform | translateY(-100%) > translateY(0%) | 200ms ease-in'
+		'opacity | 0 > 1 | 300ms ease-in'
+	}
+	
+	:animation #dialog-hide {
+		'transform | translateY(0%) > translateY(-100%) | 200ms ease-in'
+		'opacity | 1 > 0 | 200ms ease-in'
+	}
+} </script>
+<script type='include/load' id='includejs-publiccompoappsettingsappsettingsmask' data-appuri='/public/compo/app-settings/app-settings.mask'> 
+:template #setts-dienste {
+	h4 > 'Schichte'
+			
+	ul.-pallets {
+		
+		%% each='settings.dienst.types' {
+			li.-pl-item style='background-color: ~[color] '{
+				.-pl-item-title > '~[name]'
+				
+				span.-pl-remove.glyphicon.glyphicon-trash x-signal='click: dienstType_Editor_Remove';
+			}
+		}
+		
+		li.-pl-item.-pl-add x-signal='click: dienstType_Editor_New' {
+			span > '+'
+			
+			.-pl-item-editor {
+				.form-group {
+					input.form-control placeholder='Name' >
+						:dualbind value='editor.dienstType.name';
+				}
+				
+				
+				:colorpicker >
+					:dualbind value='editor.dienstType.color' getter='getColor' setter='setColor';
+				
+				.-pl-item-buttons {
+					button.btn
+					x-signal='click: palette_Editor_Cancel' 
+					style='margin-right: 5px; color: #B81B1B	;' >
+					
+						i.glyphicon.glyphicon-remove-circle;
+						
+					button.btn
+					x-signal='click: dienstType_Editor_Save' 
+					style='color: #15992A' >
+						i.glyphicon.glyphicon-ok-circle;
+				}
+			}
+		}
+	}
+	
+	
+	h4 > 'Sonstige'
+			
+	ul.-pallets {
+		
+		%% each='settings.dienst.tags' {
+			li.-pl-item style='background-color: ~[color] '{
+				.-pl-item-title > '~[name]'
+				
+				span.-pl-remove.glyphicon.glyphicon-trash x-signal='click: dienstTag_Editor_Remove';
+			}
+		}
+		
+		li.-pl-item.-pl-add x-signal='click: dienstTag_Editor_New' {
+			span > '+'
+			
+			.-pl-item-editor {
+				.form-group {
+					input.form-control placeholder='Name' >
+						:dualbind value='editor.dienstTag.name';
+				}
+				
+				
+				:colorpicker >
+					:dualbind value='editor.dienstTag.color' getter='getColor' setter='setColor';
+				
+				.-pl-item-buttons {
+					button.btn
+					x-signal='click: palette_Editor_Cancel' 
+					style='margin-right: 5px; color: #B81B1B	;' >
+					
+						i.glyphicon.glyphicon-remove-circle;
+						
+					button.btn
+					x-signal='click: dienstTag_Editor_Save' 
+					style='color: #15992A' >
+						i.glyphicon.glyphicon-ok-circle;
+				}
+			}
+		}
+	}
+}
+
+:template #setts-settings {
+	h5 > 'Themen'
+	
+	.form-group >
+		select.form-control {
+			% each='config.themes' >
+				option name='~[.]' >
+					'~[.]'
+					
+			:dualbind value='user.settings.theme' x-signal='dom: theme_Selected';
+		}
+		
+	h5 > 'Kalender'
+	.form-group {
+		
+		:range-slider.setts-calendar-range
+			min=0
+			max=24
+			
+			from='~[user.settings.calStart]'
+			to='~[user.settings.calEnd]'
+			;
+	}
+}
+
+.-app-settings {
+	
+	.row {
+		.col-md-3 style='padding: 20px' {
+			
+			:radio.nav.nav-pills.nav-stacked #radio-settings as=ul {
+			
+				li {
+					a href='/' > '⇦ Zurück'
+					hr;
+				}
+				
+				
+				
+				li.active name='settings' >
+					a href='#' >
+						'Meine Einstellungen'
+				
+				% if='user.role == "admin"' {	
+					li name='dienste' >
+						a href='#' >
+							'Dienste'
+					
+					li {
+						hr;
+						a href='/users' >
+							'Mitarbeiter'
+					}
+				}
+				
+			}
+		}
+		
+		.col-md-9 {
+			
+			:tabs #tabs-settings {
+				
+				@panels {
+					div name='dienste' >
+						:import #setts-dienste;
+						
+					div.-show name='settings' >
+						:import #setts-settings;
+				}
+				
+			}
+		}
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccompoeditorappointmenteditorappointmentmask' data-appuri='/public/compo/editor-appointment/editor-appointment.mask'> :template #dienstTemplate {
+	.row {
+					
+		.col-md-6 >
+			.form-group {
+				label > 'Datum'
+				:datepicker format='dd/MM/yyyy'>
+					:dualbind value='dienst.date' getter='getDate' setter='setDate';
+			}
+		
+		.col-md-6 >
+			.form-group {
+				
+				label style='display:inline-block; vertical-align: middle;'{
+						input type='checkbox' name='chbUntil' style=''>
+							:dualbind
+								value='dienstUntil.active'
+								x-signal='dom: dienstUntil_activeChanged'
+								;
+						' bis '
+					}
+					
+				:datepicker #dienstUntil_Datepicker format='dd/MM/yyyy' disabled >
+					:dualbind
+						value='dienstUntil.end'
+						getter='getDate'
+						setter='setDate'
+						x-signal='dom: dienstUntil_endChanged'
+						;
+				
+				
+			}
+	}
+	
+	.row {
+		.col-md-6 >
+			.form-group {
+				label > 'Dienst'
+				
+				:select.form-control data-live-search {
+					:dualbind value='dienstInfo.type' getter='getValue' setter='setValue';
+					
+					if (user.role == "admin") {
+						optgroup label='Schichte' >
+							+each (settings.dienst.types) >
+								option name='~[name]' data-type='schicht' >
+									'~[name]'
+					}
+					
+					optgroup label='Sonstige' >
+						+each (settings.dienst.tags) >
+							option name='~[name]' data-type='tag' >
+								'~[name]'
+				}
+			}
+	}
+	
+	.row {
+		.col-md-6 >
+			.form-group {
+				label > 'Kalendar'
+				
+				:select.form-control  data-live-search {
+					:dualbind value='dienst.username' getter=getValue setter=setValue;
+					
+					+each (user.calendars, user.getCalendars()) {
+						option name='~[username]' > '~[name] ~[surname] (~[username])'
+					}
+				}
+			}
+	}
+	
+	.row {
+		.form-group.btns-row {
+			button.btn.btn-primary x-signal='click: btnDienstSave'
+				> 'Speichern'
+				
+			button.btn.btn-danger.btn-sm x-signal='click: dialogCancel'
+				> 'Abbrechen'
+		}
+	}
+	
+}
+
+:template #terminTemplate {
+	.row >
+		.col-md-6 >
+			.form-group {
+				label > 'Titel'
+				input.form-control >
+					:dualbind value='termin.title';
+			}
+	hr;
+	.row {
+					
+		.col-md-6 >
+			.form-group {
+				label > 'Datum'
+				:datepicker format='dd/MM/yyyy hh:mm' >
+					:dualbind
+						value='termin.start'
+						getter='getDate'
+						setter='setDate'
+						x-signal='dom: terminStartChange'
+						;
+			}
+		.col-md-6 >
+			.form-group {
+				label > '~[bind: terminDuration]'
+				
+				:datepicker format='dd/MM/yyyy hh:mm' >
+				
+					:dualbind
+						value='termin.end'
+						getter='getDate'
+						setter='setDate'
+						x-signal='dom:terminEndChange'
+						;	
+			
+			}
+			
+	}
+	.row {
+		.col-md-6 >
+			.form-group {
+				label > 'Kalendar'
+				
+				:select.form-control  data-live-search multiple {
+					:dualbind value='termin.usernames' getter=getValue setter=setValue;
+					
+					+each(user.calendars, user.getCalendars()) {
+						option name='~[username]' > '~[name] ~[surname] (~[username])'
+					}
+				}
+			}
+		.col-md-6 {
+			label > ' '
+			input.form-control placeholder='Wo?' >
+					:dualbind value='termin.location';
+		}
+	}
+	
+	.row {
+		
+		.col-md-6 >
+			.checkbox {
+				
+				label {
+					input type='checkbox' name='chbRepeat' >
+						:dualbind value='repeat.active';
+					'Wiederholen'
+				}
+				
+				select style='display: ~[bind: repeat.active ? "inline" : "none" ]' {
+					option name=day > 'Tag'
+					option name=week > 'Woche'
+					option name=month > 'Monat'
+					option name=year > 'Jahr'
+					
+					:dualbind value='repeat.type';
+				}
+			}
+		
+		.col-md-6 {
+			
+			
+		}
+	}
+	
+	.row {
+		.form-group {
+			label >
+				'Beschreibung'
+			
+			textarea.form-control rows=4 >
+				:dualbind value='termin.description';
+		}
+	}
+	
+	hr;
+	.row {
+		.form-group.btns-row {
+			button.btn.btn-primary x-signal='click: btnTerminSave' >
+				'Speichern'
+				
+			button.btn.btn-danger.btn-sm x-signal='click: dialogCancel' >
+				'Abbrechen'
+		}
+	}
+	
+}
+
+
+.-editor-appointment {
+	
+	
+	
+	:radio.btn-group.entryType #radioTypes {
+		button.btn.btn-default.active name=dienst > 'Dienst'
+		button.btn.btn-default name=termin > 'Termin'
+	}
+	
+	:tabs #tabTypes {
+		@panels.-ap-editor {
+			.-ap-dienst.-show name=dienst >
+				:import #dienstTemplate;
+			
+			.-ap-termin name=termin >
+				:import #terminTemplate;
+		}
+		:animation #show {
+			'opacity | .5 > 1 | 300ms ease-in'
+			'transform | translateX(-20%) > translateX(0%) | 200ms ease-out'
+		}
+	}
+	
+}
+ </script>
+<script type='include/load' id='includejs-referenceatmacomposnotificationlibnotificationmask' data-appuri='/.reference/atma/compos/notification/lib/notification.mask'> 
+.ui-notify-message.ui-notify-message-style.~[type] {
+	
+	a.ui-notify-cross.ui-notify-close href='#' > 'x'
+	h1 > '~[title]'
+	
+	.ui-notify-icon;
+	
+	pre >
+		'~[message]'
+
+}
+ </script>
+<script type='include/load' id='includejs-publiccomposbcalendarsbcalendarmask' data-appuri='/public/compo/sb-calendar/sb-calendar.mask'> 
+:template #sb-calendar {
+     
+	 h5.sb-calendar-month > '~[month] ~[year]'
+	 
+     table.-scl-overview cellspacing=0 cellspacing=0 {
+		thead >
+			% each='dayNames' >
+				td.-scl-row-name >
+					td >
+						'~[.]'
+		tbody >
+						
+			%% each='days' >
+				tr.-scl-row >
+					% each='.' >
+						td.-scl-cell.~[type] data-date='~[month]-~[day]-~[year]' >
+							'~[day]'
+			
+	}
+}
+
+.-calendar-overview {
+	
+	:collapser {
+		table.-scl-header.-collapser-header {
+			
+			tr {
+				td.-collapser-icon._do_collapse >
+					'▼';
+				td.-scl-header-title._do_collapse >
+					'Kalender'
+				
+				td.-scl-nav x-signal='click: navLeft' >
+					.-scl-nav-pane >
+						b.caret._left;
+						
+				td.-scl-nav x-signal='click: navRight' >
+					.-scl-nav-pane >
+						b.caret._right;
+			}
+		}
+		
+		.-collapser-content style='padding-left: 25px' {
+			
+			%% each='calendars' {
+				:import #sb-calendar;
+			}	
+		}
+			
+			
+			
+		:animation #collapser-hide {
+			@model {
+				'transform | translateX(0%) > translateX(-100%) | 200ms linear' 
+				'opacity | 1 > 0 | 200ms ease'
+			}
+			@next > 'display | > none'
+		}
+		
+		:animation #collapser-show {
+			@model > 'display | > block'
+			@next {
+				'transform | translateX(-100%) > translateX(0%) | 200ms linear' 
+				'opacity | 0 > 1 | 200ms ease'
+			}
+		}
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccomposbfilterssbfiltersmask' data-appuri='/public/compo/sb-filters/sb-filters.mask'> 
+.-sb-filters {
+	
+	:collapser {
+		table.-collapser-header {
+			
+			tr {
+				td.-collapser-icon._do_collapse >
+					'▼';
+				td.-scl-header-title._do_collapse >
+					'Filter'
+			}
+		}
+		
+		.-collapser-content style='padding-left: 25px' {
+			table.-sb-users-list cellspacing=0 cellspacing=0 {
+				
+				tbody {
+					
+					tr > td colspan='2' > tt > b > 'Schichte'
+									
+					% each='settings.dienst.types' >
+						tr.-sbu-filter-item  data-name='~[name]' data-type='type' >
+							td {
+								.-sbu-checkbox >
+									div style='width:100%; height:100%; background-color: ~[color]';
+									
+								.-sbu-name > '~[name]'
+							}
+				}
+			}
+			
+			table.-sb-users-list cellspacing=0 cellspacing=0 {
+				
+				tbody {
+					
+					tr > td colspan='2' > tt > b > 'Sonstige'
+									
+					% each='settings.dienst.tags' >
+						tr.-sbu-filter-item  data-name='~[name]' data-type='tag'>
+							td {
+								.-sbu-checkbox >
+									div style='width:100%; height:100%; background-color: ~[color]';
+									
+								.-sbu-name > '~[name]'
+							}
+				}
+			}
+		
+		}
+			
+		:animation #collapser-hide {
+			@model {
+				'transform | translateX(0%) > translateX(-100%) | 200ms linear' 
+				'opacity | 1 > 0 | 200ms ease'
+			}
+			@next > 'display | > none'
+		}
+		
+		:animation #collapser-show {
+			@model > 'display | > block'
+			@next {
+				'transform | translateX(-100%) > translateX(0%) | 200ms linear' 
+				'opacity | 0 > 1 | 200ms ease'
+			}
+		}
+	}
+} </script>
+<script type='include/load' id='includejs-publiccompocalendarcalendarmask' data-appuri='/public/compo/calendar/calendar.mask'> 
+.-calendar {
+	
+	:tabs #types-tab {
+		@panels {
+			.-calendar-day.-cl-tab name='day' {
+				
+				:cl-timeline single;
+				
+				:resize-handler >
+					.-calendar-days.day {
+	
+						%% each=days >			
+							:cl-singleday;
+					}
+			}
+			
+			.-calendar-week.-cl-tab name='week' {
+				
+				:cl-timeline;
+			
+				:resize-handler >
+					.-calendar-days.week{
+						
+						%% each=week >
+							:cl-day;
+					}
+			}
+			
+			.-calendar-month.-cl-tab name='month'{
+				:cl-month;
+			}
+			
+			.-calendar-year.-cl-tab name='year' {
+				
+				
+			
+					:double-scroller #js-year-scroller {
+						
+						div style='overflow:auto; overflow-y: hidden; ' >
+							div style='padding-top:1px;' >
+								' '
+								
+						:cl-year;
+					}
+					
+				
+			}
+		}
+	}
+}
+
+:popover #termin-popover;
+ </script>
+<script type='include/load' id='includejs-publiccompocalendartemplateterminmask' data-appuri='/public/compo/calendar/template-termin.mask'> 
+.-termin-pop data-termin='~[_id]'{
+	
+	.termin-pop-title {
+		i.glyphicon.glyphicon-bookmark;
+		'~[: title ? title : "No Title"]'
+	}
+	
+	.termin-pop-description style='padding: 5px 0px; '>
+		'~[description]'
+	
+	tt.termin-pop-calendars {
+		i.glyphicon .glyphicon-calendar;
+		'~[usernames]'
+	}
+		
+	.termin-pop-createdBy style='text-align:right;'>
+		i > '(~[createdBy])'
+	
+	hr;
+	
+	.row style='min-width: 250px;' {
+		.col-md-2 >
+			button.btn.btn-default  x-signal='click:pop_terminRemove;click:popoverClose' {
+				i.glyphicon.glyphicon-trash;
+				' Löschen'
+			}
+		.col-md-5;
+		.col-md-2 >
+			button.btn.btn-default x-signal='click:pop_terminEdit;click:popoverClose' {
+				i.glyphicon.glyphicon-pencil;
+				' Bearbeiten'
+			}
+	}
+} </script>
+<script type='include/load' id='includejs-publiccompocalendartemplatedienstmask' data-appuri='/public/compo/calendar/template-dienst.mask'> 
+.-dienst-pop data-dienst='~[_id]'{
+	
+	.termin-pop-title {
+		i.glyphicon.glyphicon-bookmark style='color: ~[color]';
+		'~[: type || tag]' em > ' ~[:type ? "Schicht" : "Sonstige"]'
+	}
+	
+	.termin-pop-description style='padding: 5px 0px; '>
+		'~[format: date, "dd. MMM yyyy, HH:mm"]'
+		
+	.termin-pop-createdBy style='text-align:right;'>
+		i > '(~[createdBy])'
+	
+	hr;
+	
+	.row style='min-width: 250px;' {
+		.col-md-2 >
+			button.btn.btn-default  x-signal='click:pop_dienstRemove;click:popoverClose' {
+				i.glyphicon.glyphicon-trash;
+				' Löschen'
+			}
+		.col-md-5;
+		.col-md-2 >
+			button.btn.btn-default x-signal='click:pop_dienstEdit;click:popoverClose' {
+				i.glyphicon.glyphicon-pencil;
+				' Bearbeiten'
+			}
+	}
+} </script>
+<script type='include/load' id='includejs-publiccompocalendarterminterminmask' data-appuri='/public/compo/calendar/termin/termin.mask'> 
+.-cl-termin .~[_display.klass]  style='
+			background: ~[_display.userColor];
+			width: ~[_display.width]%;
+			height: ~[_display.height]%;
+			left: ~[_display.left]%;
+			top: ~[_display.top]%;
+			border: 1px solid ~[_display.userColor];
+		'
+		data-termin='~[_id]'
+		data-user='~[usernames]' {
+			
+			.-cl-termin-period {
+				'~[_display.period]'
+			}
+			.-cl-termin-username
+				> '~[usernames]'
+			
+			% if='_split == null' {
+				.-cl-termin-dragger;
+				.-cl-termin-resizer;
+			}
+		}
+ </script>
+<script type='include/load' id='includejs-publiccompocalendarcldaycldaymask' data-appuri='/public/compo/calendar/cl-day/cl-day.mask'> 
+.-cl-day data-date='~[date]' {
+	
+	.-cl-title.-cl-title-day.~[todayClass] x-pipe-signal='click: calendar.dayShow' >
+		'~[title]'
+	
+	.-cl-dienste {
+		% each='dienste' {
+			
+			.-cl-dienst
+				data-dienst='~[_id]'
+				data-user='~[user.username]' {
+					
+				table style='width: 100%;' >
+					tr {
+						% if='dienste.length' >
+							% each='dienste' >
+								td data-dienst='~[_id]' {
+												
+									.-cl-dienst-type style='background: ~[color]' >
+										'~[name]'
+								}
+						% else >
+							td >
+								:html > '&nbsp;'
+					}
+							
+			}
+		
+		}
+	}
+	
+	.-cl-day-container {
+		
+		.-cl-day-grid.~[todayClass] {
+			
+			% each='cells' >
+				.-cl-day-grid-cell;
+				
+			% if='todayClass' >
+				.-cl-day-now style='top:~[now.top]%';
+			
+		}
+		
+		.-cl-termine x-time-picker {
+			% each='termine' {
+				
+				//.-cl-termin
+				//	style='
+				//		background: ~[_display.userColor];
+				//		width: ~[_display.width]%;
+				//		height: ~[_display.height]%;
+				//		left: ~[_display.left]%;
+				//		top: ~[_display.top]%;
+				//		border: 1px solid ~[_display.userColor];
+				//	'
+				//	data-termin='~[_id]'
+				//	data-user='~[usernames]' {
+				//		
+				//		.-cl-termin-period {
+				//			'~[_display.period]'
+				//		}
+				//		.-cl-termin-username > '~[usernames]'
+				//	}
+				
+				:termin;
+			}
+		}
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccompocalendarclsingledayclsingledaymask' data-appuri='/public/compo/calendar/cl-singleday/cl-singleday.mask'> 
+.-cl-day data-date='~[date]' {
+	
+	.-cl-title.-cl-title-day.~[todayClass] x-pipe-signal='click: calendar.dayShow' >
+		'~[title]'
+	
+	.-cl-dienste {
+		
+		% each='dienste' {
+			
+			.-cl-dienst.column
+				style='width: ~[: 100 / $c.parent.model.length]%'
+				
+				data-dienst='~[_id]'
+				data-user='~[user.username]' {
+				
+					.-cl-dienst-user >
+						'~[user.name] ~[user.surname]'
+					
+					table style='width: 100%; table-layout: fixed;' >
+						tr {
+							
+							% if='dienste.length' >
+								% each='dienste' >
+									td {
+										.-cl-dienst-type data-dienst='~[_id]' style='background: ~[color]' >
+											'~[name]'
+									}
+							% else >
+								td >
+									:html > '&nbsp;'
+									//.-cl-dienst-type style='background: red'  > :html > '&nbsp;'
+						}
+			}
+		}
+	}
+	
+	.-cl-day-container {
+		
+		.-cl-day-grid.~[todayClass] {
+			
+			% each='cells' >
+				.-cl-day-grid-cell;
+				
+			% if='todayClass' >
+				.-cl-day-now style='top:~[now.top]%';
+			
+			% if='hiddenTop' >
+				.-cl-day-hidden-termine name=top x-tooltip='spätere Termine' >
+					'~[hiddenTop]'
+			
+			% if='hiddenBottom' >
+				.-cl-day-hidden-termine name=bottom x-tooltip='frühere Termine'  >
+					'~[hiddenBottom]'
+		}
+		
+		.-cl-termine width='100%'{
+			
+			% each='termine' {
+				
+				.-cl-termin-column x-time-picker data-username='~[username]'
+					style='
+						width: ~[: 100 / $c.parent.model.length]%;
+						left: ~[: $c.index * (100 / $c.parent.model.length)]%;
+					' {
+					
+					% each='termine' >
+						:termin;
+				}
+			}
+		}
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccompocalendarclmonthclmonthmask' data-appuri='/public/compo/calendar/cl-month/cl-month.mask'> 
+.-cl-month {
+	
+	%% each='.' baz {
+		table {
+			tr {
+				td > ' '
+				% each=days >
+					td > '~[number]'
+			}
+			%% each=calendars {
+				tr data-username='~[username]' x-time-picker-row {
+					td > '~[username]'
+					
+					%% each='$c.getDienste(username)' {
+						% if='length' >
+							td >
+								div style='width:100%; white-space:nowrap;' >
+									% each='.' >
+										
+											.-cl-dienst-type style='
+												background: ~[color];
+												height:100%;
+												width:~[:100 / $c.parent.model.length]%;
+												display: inline-block;
+												'
+												
+												data-dienst='~[_id]'
+												>
+													'~[name]'
+						% else >
+							td > ' '
+					}			
+				}
+			}
+			
+		}
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccompocalendarcltimelinecltimelinemask' data-appuri='/public/compo/calendar/cl-timeline/cl-timeline.mask'> 
+.-cl-day.__timeline {
+	
+	.-cl-title >
+		:html >
+			'&nbsp;'
+	
+	.-cl-dienste {
+		% if='!$a.single' >
+			%% each='calendars' {
+				
+				.-cl-dienst
+					style='border-left: 1px solid ~[color]'
+					data-user='~[username]' {
+					
+						'~[username]'
+					
+				}
+			}
+		% else {
+			%% if='calendars.length' {
+				.-cl-dienst.column {
+					.-cl-dienst-user >
+						:html >
+							'&nbsp;'
+					table >
+						tr >
+							td >
+								:html >
+									'&nbsp;'
+					
+				}
+			}
+		}
+	}
+	
+	.-cl-day-container {
+		
+		.-cl-time-range;
+		
+		.-cl-day-grid {
+			
+			%% each='cells' >
+				.-cl-day-grid-cell.time-cell >
+					'~[time]'
+				
+			.-cl-timeline-now style='top: ~[bind:now.top]%';
+			
+		}
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccompocalendarclyearclyearmask' data-appuri='/public/compo/calendar/cl-year/cl-year.mask'> div style='position:relative' {
+	.-cl-day.__timeline style='border-top:1px solid transparent'{
+		
+		.-cl-title.-cl-title-day style='pointer-events:none' >
+			:html >
+				'&nbsp;'
+		
+		
+		.-cl-dienste >
+			.-cl-dienst.column >
+				.-cl-dienst-user > :html > '&nbsp;'
+				
+			
+		
+		
+		.-cl-day-grid {
+			% each='cells' >
+				.-cl-day-grid-cell.time-cell >
+					'~[time]'
+				
+			.-cl-timeline-now style='top:~[now.top]%';
+			
+		}
+	}
+	
+	div #js-year-scroller style='width:100%; overflow:auto;' >
+	
+		.-calendar-days.year{
+			
+			%% each='year' {
+				
+				% each='.' >
+					:cl-year-month;	
+			}
+		}
+	
+} </script>
+<script type='include/load' id='includejs-publiccompocalendarclyearclyearmonthclyearmonthmask' data-appuri='/public/compo/calendar/cl-year/cl-year-month/cl-year-month.mask'> 
+:day-sizer width=30 >
+	.-cl-day {
+		
+		.-cl-title.-cl-title-day.~[todayClass] x-pipe-signal='click: calendar.monthShow' >
+			'~[title]'
+		
+		.-cl-dienste {
+			
+			% each='dienste' {
+				
+				.-cl-dienst.column
+					style='width: ~[: 100 / $c.parent.model.length]%'
+					
+					data-dienst='~[_id]'
+					data-user='~[user.username]' {
+					
+						.-cl-dienst-user >
+							'~[user.username]'
+				}
+			}
+		}
+		
+		.-cl-day-container {
+			
+			.-cl-day-grid.~[todayClass] {
+				
+				% each='cells' >
+					.-cl-day-grid-cell;
+					
+				% if='todayClass' >
+					.-cl-day-now style='top:~[now.top]%';
+				
+			}
+			
+			.-cl-termine width='100%'{
+				
+				% each='dienste' {
+					
+					.-cl-termin-column
+						style='
+							width: ~[: 100 / $c.parent.model.length]%;
+							left: ~[: $c.index * (100 / $c.parent.model.length)]%;
+						' {
+						
+						% each='dienste' >
+							.-cl-dienst-type data-dienst='~[_id]' style='
+								position:absolute;
+								
+								width: ~[_display.width]%;
+								height: ~[_display.height]%;
+								left: ~[_display.left]%;
+								top: ~[_display.top]%;
+								border: 1px solid ~[_display.userColor];
+								background: ~[_display.color];
+							'
+							{
+								'~[:type || tag]'
+							}
+					}
+				}
+			}
+		}
+	} </script>
+<script type='include/load' id='includejs-publiccompoappappmask' data-appuri='/public/compo/app/app.mask'> .-app {
+	header {
+		
+		.row style='padding: 10px 0px;' {
+			.col-md-2 style='text-align: center' {
+				
+				button.btn.btn-primary x-signal='click:termin_Create' >
+					'Neuer Eintrag'
+				
+			}
+			
+			.col-md-1 {
+				button.btn.btn-default
+					x-signal='click: navToday'
+					disabled='~[bind: todayIsInRange ? "disabled"]' >
+						'Heute'
+			}
+			
+			.col-md-3 {
+				.btn-group {
+					button.btn.btn-default x-signal='click:navPrev' >
+						i
+							.glyphicon
+							.glyphicon-chevron-left
+							.__nav
+							style='position:relative; top: 2px;'
+							;
+						
+					button.btn.btn-default x-signal='click:navNext' >
+						i
+							.glyphicon
+							.glyphicon-chevron-right
+							.__nav
+							style='position:relative; top: 2px;'
+							;
+						
+				}
+				span {
+					' ' '~[bind: titleCalendarRange]'
+				}
+			}
+			.col-md-5 {
+				:radio #calendar-view-type .btn-group {
+					button.btn.btn-default.~[: range == 'day' ? 'active' ] name='day' >
+						'Tag'
+					button.btn.btn-default.~[: range == 'week' ? 'active' ] name='week' >
+						'Woche'
+					button.btn.btn-default.~[: range == 'month' ? 'active' ] name='month' >
+						'Monat'
+					button.btn.btn-default.~[: range == 'year' ? 'active' ] name='year' >
+						'Jahr'
+				}
+			}
+			
+			.col-md-1 style='text-align: right;' {
+				//button.btn.btn-default >
+				//	i.glyphicon.glyphicon-cog;
+					
+				:bs:dropdown.pull-right {
+					button.-collapser-dropdown.btn.btn-default >
+						i.glyphicon.glyphicon-cog;
+					
+					@select {
+						
+						if (user.role == "admin") {
+							a href='#' x-signal='click: gearImport' >
+								'Importieren'
+						}
+						
+						a href='/settings' >
+						
+							'Einstellungen'
+						a href='/logout' >
+							'Auslogen'
+						
+					}
+				}
+			}
+		}
+		
+	}
+	
+	.app-content {
+		.app-sidebar {
+			:sb-calendar;
+			
+			:sb-users;
+			
+			:sb-filters;
+		}
+		
+		.app-calendar {
+			
+			:calendar;
+		}
+	}
+}
+
+:ical-importer;
+
+:dialog #dialog-create {
+	:editor-appointment;
+	
+	:animation #dialog-show {
+		'opacity | 0 > 1 | 300ms ease-in'
+	}
+	
+	:animation #dialog-hide {
+		'opacity | 1 > 0 | 200ms ease-in'
+	}
+}
+ </script>
+<script type='include/load' id='includejs-publiccomposbuserssbusersmask' data-appuri='/public/compo/sb-users/sb-users.mask'> 
+.-sb-users{
+	
+	:collapser {
+		table.-collapser-header {
+			
+			tr {
+				td.-collapser-icon._do_collapse >
+					'▼';
+				td.-scl-header-title._do_collapse >
+					'Meine Kalender'
+				
+				td.-scl-nav >
+					
+						:bs:dropdown {
+							.-scl-nav-pane .-collapser-dropdown >
+									i.glyphicon.glyphicon-plus;
+									
+							@select {
+								a href='#' x-signal='click: addCalendar' >
+									'Neu hinzufügen'
+							}
+						}
+			}
+		}
+		
+		.-collapser-content style='padding-left: 25px' >
+			table.-sb-users-list cellspacing=0 cellspacing=0 {
+				
+				tbody >
+								
+					%% each='user.calendars, user.getCalendars()' >
+						tr.-sbu-user  data-username='~[username]' >
+							td.-sbu-user-cell {
+								.-sbu-checkbox >
+									div style='width:100%; height:100%; background-color: ~[color]';
+									
+								.-sbu-name > '~[name] ~[surname]'
+							}
+					
+			}
+			
+			
+		:animation #collapser-hide {
+			@model {
+				'transform | translateX(0%) > translateX(-100%) | 200ms linear' 
+				'opacity | 1 > 0 | 200ms ease'
+			}
+			@next > 'display | > none'
+		}
+		
+		:animation #collapser-show {
+			@model > 'display | > block'
+			@next {
+				'transform | translateX(-100%) > translateX(0%) | 200ms linear' 
+				'opacity | 0 > 1 | 200ms ease'
+			}
+		}
+	}
+}
+
+:dialog #createNew {
+	h4 > 'Calendar hinzufügen'
+	
+	.form-group >
+		.input-group x-tooltip='3-4 Buchstaben Kennung' {
+			span.input-group-addon.glyphicon.glyphicon-flag;
+			input.form-control type=text name=inputUsername placeholder='Kennung';
+		}
+	
+	.form-group >
+		.input-group {
+			span.input-group-addon.glyphicon.glyphicon-asterisk;
+			input.form-control name=inputPassword type=password placeholder='Passwort';
+			
+			span.input-group-addon.glyphicon.glyphicon-eye-open style='cursor: pointer' x-signal='click: viewPassword';
+		}
+	hr;
+	.btns-row {
+		button.btn.btn-primary x-signal='click: dialog_addCalendar' > 'Hinzufügen'
+		button.btn.btn-sm.btn-danger x-signal='click: dialogCancel' > 'Abbrechen'
+	}
+	
+	:animation #dialog-show {
+		'transform | translateY(-100%) > translateY(0%) | 200ms ease-in'
+		'opacity | 0 > 1 | 300ms ease-in'
+	}
+	
+	:animation #dialog-hide {
+		'transform | translateY(0%) > translateY(-100%) | 200ms ease-in'
+		'opacity | 1 > 0 | 200ms ease-in'
+	}
+}
+ </script>

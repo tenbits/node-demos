@@ -1,0 +1,64 @@
+
+:day-sizer width=30 >
+	.-cl-day {
+		
+		.-cl-title.-cl-title-day.~[todayClass] x-pipe-signal='click: calendar.monthShow' >
+			'~[title]'
+		
+		.-cl-dienste {
+			
+			each (dienste) {
+				
+				.-cl-dienst.column
+					style='width: ~[: 100 / $c.parent.model.length]%'
+					
+					data-dienst='~[_id]'
+					data-user='~[user.username]' {
+					
+						.-cl-dienst-user >
+							'~[user.username]'
+				}
+			}
+		}
+		
+		.-cl-day-container {
+			
+			.-cl-day-grid.~[todayClass] {
+				
+				each (cells) >
+					.-cl-day-grid-cell;
+					
+				if (todayClass) >
+					.-cl-day-now style='top:~[now.top]%';
+				
+			}
+			
+			.-cl-termine width='100%'{
+				
+				each (dienste) {
+					
+					.-cl-termin-column
+						style='
+							width: ~[: 100 / $c.parent.model.length]%;
+							left: ~[: $c.index * (100 / $c.parent.model.length)]%;
+						' {
+						
+						each (dienste) >
+							.-cl-dienst-type data-dienst='~[_id]' style='
+								position:absolute;
+								
+								width: ~[_display.width]%;
+								height: ~[_display.height]%;
+								left: ~[_display.left]%;
+								top: ~[_display.top]%;
+								border: 1px solid ~[_display.userColor];
+								background: ~[_display.color];
+							'
+							{
+								'~[:type || tag]'
+							}
+					}
+				}
+			}
+		}
+	}

@@ -1,0 +1,23 @@
+{
+  "name": "-",
+  "main": "index.js",
+  "version": "0.0.0",
+  "authors": [
+    "Alex Kit <source.kit@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "atma-formatter": "~0.8.11",
+    "maskjs": "latest",
+    "includejs": "latest",
+    "bootstrap": "latest",
+    "atma-class": "latest"
+  }
+}

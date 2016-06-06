@@ -1,0 +1,48 @@
+env:
+	both:
+
+		include:
+			cfg:
+				loader:
+
+
+		routes:
+			public : '/public/script/{0}.js'
+			public_model: '/public/model/{0}.js'
+			public_compo: '/public/compo/{0}/{1}.js'
+			public_script: '/public/script/{0}.js'
+			public_control: /public/control/{0}/{1}.js
+			public_attr: /public/attr/{0}.js
+			bootstrap: '/.reference/bootstrap/js/{0}.js'
+			
+			
+			atma: '/.reference/atma/{0}/lib/{1}.js'
+			atma_compo: '/.reference/atma/compos/{0}/lib/{1}.js'
+			atma_utils: '/.reference/atma/mask-utils/{0}/lib/{1}.js'
+			
+			view: '/public/view/{0}/{1}.js'
+
+		scripts:
+			atma:
+				- 'ruqq/utils'
+				- 'ruqq/arr'
+				- 'util-format/format'
+			atma_compo:
+				- dialog
+				- tabs
+			
+			public_compo:
+				- model
+				- app
+				- sb-users
+				- resolver
+				- elements
+			
+			public_control:
+				- bootstrap/popover
+				
+			public_script:
+				- utils/date
+				- utils/math
+				- utils/color
+				- utils/cal

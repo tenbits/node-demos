@@ -1,0 +1,5 @@
+defaultTheme: default
+
+themes:
+	- default
+	- dark

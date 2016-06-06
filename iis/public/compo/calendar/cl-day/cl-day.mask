@@ -1,0 +1,70 @@
+
+.-cl-day data-date='~[date]' {
+	
+	.-cl-title.-cl-title-day.~[todayClass] x-pipe-signal='click: calendar.dayShow' >
+		'~[title]'
+	
+	.-cl-dienste {
+		each (dienste) {
+			
+			.-cl-dienst
+				data-dienst='~[_id]'
+				data-user='~[user.username]' {
+					
+				table style='width: 100%;' >
+					tr {
+						if (dienste.length) >
+							each (dienste) >
+								td data-dienst='~[_id]' {
+												
+									.-cl-dienst-type style='background: ~[color]' >
+										'~[name]'
+								}
+						else >
+							td >
+								:html > '&nbsp;'
+					}
+							
+			}
+		
+		}
+	}
+	
+	.-cl-day-container {
+		
+		.-cl-day-grid.~[todayClass] {
+			
+			each (cells) >
+				.-cl-day-grid-cell;
+				
+			if (todayClass) >
+				.-cl-day-now style='top:~[now.top]%';
+			
+		}
+		
+		.-cl-termine x-time-picker {
+			each (termine) {
+				
+				//.-cl-termin
+				//	style='
+				//		background: ~[_display.userColor];
+				//		width: ~[_display.width]%;
+				//		height: ~[_display.height]%;
+				//		left: ~[_display.left]%;
+				//		top: ~[_display.top]%;
+				//		border: 1px solid ~[_display.userColor];
+				//	'
+				//	data-termin='~[_id]'
+				//	data-user='~[usernames]' {
+				//		
+				//		.-cl-termin-period {
+				//			'~[_display.period]'
+				//		}
+				//		.-cl-termin-username > '~[usernames]'
+				//	}
+				
+				:termin;
+			}
+		}
+	}
+}

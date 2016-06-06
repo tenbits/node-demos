@@ -1,0 +1,67 @@
+
+
+env:
+	client:
+
+		include:
+			src: '/.reference/atma/include/lib/include.js'
+		
+		routes:
+			
+			
+			
+		scripts:
+			atma:
+				- ruqq/dom/jquery
+				- class
+				- mask
+				- '#if debug':
+					- mask/plugin.reload
+
+				- mask-node/mask.bootstrap
+				- ruta
+				- mask-animation/mask.animation
+				- '#if debug':
+					- include/include.autoreload
+
+			atma_compo:
+				- radio
+				- tabs
+			
+			public_model:
+				- model
+			
+			bootstrap:
+				- dropdown
+				- collapse
+				- transition
+				
+			
+			public_control:
+				- bootstrap/colorpicker
+				- bootstrap/datepicker
+				- bootstrap/dropdown
+				- bootstrap/tooltip
+				- bootstrap/select
+				- collapser
+				- range-slider
+				- ajax-loader
+				- ical-importer
+				
+			public_compo:
+				- app-users
+				- app-settings
+				- editor-appointment
+				- notify
+				- sb-calendar
+				- sb-filters
+				- calendar
+				
+			public_attr:
+				- timePicker
+				- timePicker-tableRow
+				
+		styles:
+			- '/.reference/bootstrap/dist/css/bootstrap.css'
+			- '/public/style/main.less'
+			- '/public/style/icons.less'

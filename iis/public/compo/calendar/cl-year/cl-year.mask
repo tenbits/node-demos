@@ -1,0 +1,37 @@
+div style='position:relative' {
+	.-cl-day.__timeline style='border-top:1px solid transparent'{
+		
+		.-cl-title.-cl-title-day style='pointer-events:none' >
+			:html >
+				'&nbsp;'
+		
+		
+		.-cl-dienste >
+			.-cl-dienst.column >
+				.-cl-dienst-user > :html > '&nbsp;'
+				
+			
+		
+		
+		.-cl-day-grid {
+			each (cells) >
+				.-cl-day-grid-cell.time-cell >
+					'~[time]'
+				
+			.-cl-timeline-now style='top:~[now.top]%';
+			
+		}
+	}
+	
+	div #js-year-scroller style='width:100%; overflow:auto;' >
+	
+		.-calendar-days.year{
+			
+			+each (year) {
+				
+				each (.) >
+					:cl-year-month;	
+			}
+		}
+	
+}

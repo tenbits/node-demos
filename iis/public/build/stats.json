@@ -1,0 +1,35 @@
+{
+    "build": {
+        "/": {
+            "scripts": true,
+            "styles": true,
+            "load": true
+        },
+        "index": {
+            "scripts": false,
+            "styles": false,
+            "load": false
+        },
+        "_session_login_logout_": {
+            "scripts": false,
+            "styles": true,
+            "load": false
+        },
+        "_users": {
+            "scripts": false,
+            "styles": false,
+            "load": false
+        },
+        "_settings": {
+            "scripts": false,
+            "styles": false,
+            "load": false
+        },
+        "_tools_fetch": {
+            "scripts": false,
+            "styles": false,
+            "load": false
+        }
+    },
+    "buildVersion": 1408119107195
+}

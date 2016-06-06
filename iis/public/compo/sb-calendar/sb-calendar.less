@@ -1,0 +1,111 @@
+@import '/public/style/lesshat.less';
+
+@color_CellSelected: #eee;
+@color_CellSelectedText: #222;
+
+.selectedCell() {
+	background-color: @color_CellSelected;
+	color: @color_CellSelectedText;
+}
+
+.hoverCell() {
+	.selectedCell;
+}
+
+
+.-calendar-overview {
+	.user-select(none);
+}
+
+.sb-calendar-month {
+	font-weight: .8em !important;
+	font-weight: bold;
+}
+
+.-scl-nav {
+	cursor: pointer;
+	text-align: center;
+	&:hover {
+		.selectedCell;
+	}
+}
+.-scl-nav-pane {
+	display:inline-block;
+	width: 30px;
+	
+}
+
+.-scl-header-title {
+	line-height: 2.5em;
+	width:100%;
+}
+
+.-scl-overview {
+	
+	table-layout:fixed;
+	border-collapse: separate;
+	
+	font-size: 12px;
+}
+
+
+.-scl-row > td {
+	
+	border: 1px solid;
+	border-color: transparent;
+	
+	width: 16px;
+	height: 16px;
+	
+	text-align: center;
+	padding: 3px;
+
+	cursor: pointer;
+	
+	&:hover {
+		.hoverCell;
+	}
+	
+	&.today {
+		border-color: gray;
+		
+		.selectedCell;
+	}
+	
+	&.__highlighted {
+		font-weight: bold;
+	}
+}
+
+.-scl-row.__selected {
+	.selectedCell;
+	
+	> td {
+		cursor: default;
+	}
+}
+
+.-scl-row > td.offset {
+	color: #999;
+}
+
+.-scl-cell.__selected {
+	.selectedCell;
+	
+	&:hover {
+		.selectedCell;
+	}
+}
+
+.-calendar-overview .-collapser-content {
+	.transition('opacity 200ms linear');
+	opacity: 1;
+}
+
+.-calendar-overview.disabled {
+	.-collapser-content {
+		
+		pointer-events: none;
+		opacity: .4;
+	}
+}

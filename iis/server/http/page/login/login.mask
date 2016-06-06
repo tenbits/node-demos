@@ -1,0 +1,55 @@
+layout:view master='login' {
+	@content #body {
+		
+		:resolver > :elements;
+		
+		.-login {
+			
+			.-box-full >
+				.-box-vertical {
+					
+					.-box-content {
+						if (error) >
+							.alert.alert-danger > '~[error]'
+							
+						form.form-horizontal role=form method=post {
+							.form-group{
+								label.col-lg-3.control-label for=inputUsername > 
+									"Nutzername"
+								.col-lg-9 > 
+									input#inputUsername.form-control
+										type=input
+										placeholder=Username
+										name=inputUsername
+										;
+							}
+							.form-group{
+								label.col-lg-3.control-label for=inputPassword1 > 
+									"Passwort"
+								.col-lg-9 > 
+									input#inputPassword.form-control
+										type=password
+										placeholder=Password
+										name=inputPassword
+										;
+							}
+							//.form-group > 
+							//	.col-lg-offset-2.col-lg-10 > 
+							//		.checkbox > 
+							//			label{
+							//				input name=chbRemember type=checkbox;
+							//				"Remember me"
+							//			}
+							.form-group > 
+								.col-lg-offset-3.col-lg-9 > 
+									button.btn.btn-default type=submit > 
+										"Anmelden"
+						}
+					}
+				}
+			
+		}
+
+		
+	}
+}

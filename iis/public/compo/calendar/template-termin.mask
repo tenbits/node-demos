@@ -1,0 +1,35 @@
+
+.-termin-pop data-termin='~[_id]'{
+	
+	.termin-pop-title {
+		i.glyphicon.glyphicon-bookmark;
+		'~[: title ? title : "No Title"]'
+	}
+	
+	.termin-pop-description style='padding: 5px 0px; '>
+		'~[description]'
+	
+	tt.termin-pop-calendars {
+		i.glyphicon .glyphicon-calendar;
+		'~[usernames]'
+	}
+		
+	.termin-pop-createdBy style='text-align:right;'>
+		i > '(~[createdBy])'
+	
+	hr;
+	
+	.row style='min-width: 250px;' {
+		.col-md-2 >
+			button.btn.btn-default  x-signal='click:pop_terminRemove;click:popoverClose' {
+				i.glyphicon.glyphicon-trash;
+				' Löschen'
+			}
+		.col-md-5;
+		.col-md-2 >
+			button.btn.btn-default x-signal='click:pop_terminEdit;click:popoverClose' {
+				i.glyphicon.glyphicon-pencil;
+				' Bearbeiten'
+			}
+	}
+}

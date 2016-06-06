@@ -1,0 +1,160 @@
+
+:template #setts-dienste {
+	h4 > 'Schichte'
+			
+	ul.-pallets {
+		
+		+each (settings.dienst.types) {
+			li.-pl-item style='background-color: ~[color] '{
+				.-pl-item-title > '~[name]'
+				
+				span.-pl-remove.glyphicon.glyphicon-trash x-signal='click: dienstType_Editor_Remove';
+			}
+		}
+		
+		li.-pl-item.-pl-add x-signal='click: dienstType_Editor_New' {
+			span > '+'
+			
+			.-pl-item-editor {
+				.form-group {
+					input.form-control placeholder='Name' >
+						:dualbind value='editor.dienstType.name';
+				}
+				
+				
+				:colorpicker >
+					:dualbind value='editor.dienstType.color' getter='getColor' setter='setColor';
+				
+				.-pl-item-buttons {
+					button.btn
+					x-signal='click: palette_Editor_Cancel' 
+					style='margin-right: 5px; color: #B81B1B	;' >
+					
+						i.glyphicon.glyphicon-remove-circle;
+						
+					button.btn
+					x-signal='click: dienstType_Editor_Save' 
+					style='color: #15992A' >
+						i.glyphicon.glyphicon-ok-circle;
+				}
+			}
+		}
+	}
+	
+	
+	h4 > 'Sonstige'
+			
+	ul.-pallets {
+		
+		+each (settings.dienst.tags) {
+			li.-pl-item style='background-color: ~[color] '{
+				.-pl-item-title > '~[name]'
+				
+				span.-pl-remove.glyphicon.glyphicon-trash x-signal='click: dienstTag_Editor_Remove';
+			}
+		}
+		
+		li.-pl-item.-pl-add x-signal='click: dienstTag_Editor_New' {
+			span > '+'
+			
+			.-pl-item-editor {
+				.form-group {
+					input.form-control placeholder='Name' >
+						:dualbind value='editor.dienstTag.name';
+				}
+				
+				
+				:colorpicker >
+					:dualbind value='editor.dienstTag.color' getter='getColor' setter='setColor';
+				
+				.-pl-item-buttons {
+					button.btn
+					x-signal='click: palette_Editor_Cancel' 
+					style='margin-right: 5px; color: #B81B1B	;' >
+					
+						i.glyphicon.glyphicon-remove-circle;
+						
+					button.btn
+					x-signal='click: dienstTag_Editor_Save' 
+					style='color: #15992A' >
+						i.glyphicon.glyphicon-ok-circle;
+				}
+			}
+		}
+	}
+}
+
+:template #setts-settings {
+	h5 > 'Themen'
+	
+	.form-group >
+		select.form-control {
+			each (config.themes) >
+				option name='~[.]' >
+					'~[.]'
+					
+			:dualbind value='user.settings.theme' x-signal='dom: theme_Selected';
+		}
+		
+	h5 > 'Kalender'
+	.form-group {
+		
+		:range-slider.setts-calendar-range
+			min=0
+			max=24
+			
+			from='~[user.settings.calStart]'
+			to='~[user.settings.calEnd]'
+			;
+	}
+}
+
+.-app-settings {
+	
+	.row {
+		.col-md-3 style='padding: 20px' {
+			
+			:radio.nav.nav-pills.nav-stacked #radio-settings as=ul {
+			
+				li {
+					a href='/' > '⇦ Zurück'
+					hr;
+				}
+				
+				
+				
+				li.active name='settings' >
+					a href='#' >
+						'Meine Einstellungen'
+				
+				if (user.role == "admin") {	
+					li name='dienste' >
+						a href='#' >
+							'Dienste'
+					
+					li {
+						hr;
+						a href='/users' >
+							'Mitarbeiter'
+					}
+				}
+				
+			}
+		}
+		
+		.col-md-9 {
+			
+			:tabs #tabs-settings {
+				
+				@panels {
+					div name='dienste' >
+						:import #setts-dienste;
+						
+					div.-show name='settings' >
+						:import #setts-settings;
+				}
+				
+			}
+		}
+	}
+}

@@ -1,0 +1,32 @@
+/**
+ * cl-timeline Styles
+ *
+ * example:
+ *
+ * .-cl-timeline 
+ *
+ */
+
+.-cl-day.__timeline {
+	position:absolute;
+	top: 0;
+	left: 0;
+	
+	z-index: 100;
+	background: rgba(255,255,255, .9);
+	
+	> .-cl-day-container {
+		cursor: crosshair;
+		position: relative;
+		
+	}
+}
+
+
+.-cl-timeline-now {
+	height: 1px;
+	border-bottom: 1px solid red;
+	width: 90%;
+	position:absolute;
+}
+

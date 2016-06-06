@@ -1,0 +1,23 @@
+
+.-cl-termin .~[_display.klass]  style='
+			background: ~[_display.userColor];
+			width: ~[_display.width]%;
+			height: ~[_display.height]%;
+			left: ~[_display.left]%;
+			top: ~[_display.top]%;
+			border: 1px solid ~[_display.userColor];
+		'
+		data-termin='~[_id]'
+		data-user='~[usernames]' {
+			
+			.-cl-termin-period {
+				'~[_display.period]'
+			}
+			.-cl-termin-username
+				> '~[usernames]'
+			
+			if (_split == null) {
+				.-cl-termin-dragger;
+				.-cl-termin-resizer;
+			}
+		}

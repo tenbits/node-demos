@@ -1,0 +1,93 @@
+
+.-sb-users{
+	
+	:collapser {
+		table.-collapser-header {
+			
+			tr {
+				td.-collapser-icon._do_collapse >
+					'▼';
+				td.-scl-header-title._do_collapse >
+					'Meine Kalender'
+				
+				td.-scl-nav >
+					
+						:bs:dropdown {
+							.-scl-nav-pane .-collapser-dropdown >
+									i.glyphicon.glyphicon-plus;
+									
+							@select {
+								a href='#' x-signal='click: addCalendar' >
+									'Neu hinzufügen'
+							}
+						}
+			}
+		}
+		
+		.-collapser-content style='padding-left: 25px' >
+			table.-sb-users-list cellspacing=0 cellspacing=0 {
+				
+				tbody >
+								
+					+each (user.calendars, user.getCalendars()) >
+						tr.-sbu-user  data-username='~[username]' >
+							td.-sbu-user-cell {
+								.-sbu-checkbox >
+									div style='width:100%; height:100%; background-color: ~[color]';
+									
+								.-sbu-name > '~[name] ~[surname]'
+							}
+					
+			}
+			
+			
+		:animation #collapser-hide {
+			@model {
+				'transform | translateX(0%) > translateX(-100%) | 200ms linear' 
+				'opacity | 1 > 0 | 200ms ease'
+			}
+			@next > 'display | > none'
+		}
+		
+		:animation #collapser-show {
+			@model > 'display | > block'
+			@next {
+				'transform | translateX(-100%) > translateX(0%) | 200ms linear' 
+				'opacity | 0 > 1 | 200ms ease'
+			}
+		}
+	}
+}
+
+:dialog #createNew {
+	h4 > 'Calendar hinzufügen'
+	
+	.form-group >
+		.input-group x-tooltip='3-4 Buchstaben Kennung' {
+			span.input-group-addon.glyphicon.glyphicon-flag;
+			input.form-control type=text name=inputUsername placeholder='Kennung';
+		}
+	
+	.form-group >
+		.input-group {
+			span.input-group-addon.glyphicon.glyphicon-asterisk;
+			input.form-control name=inputPassword type=password placeholder='Passwort';
+			
+			span.input-group-addon.glyphicon.glyphicon-eye-open style='cursor: pointer' x-signal='click: viewPassword';
+		}
+	hr;
+	.btns-row {
+		button.btn.btn-primary x-signal='click: dialog_addCalendar' > 'Hinzufügen'
+		button.btn.btn-sm.btn-danger x-signal='click: dialogCancel' > 'Abbrechen'
+	}
+	
+	:animation #dialog-show {
+		'transform | translateY(-100%) > translateY(0%) | 200ms ease-in'
+		'opacity | 0 > 1 | 300ms ease-in'
+	}
+	
+	:animation #dialog-hide {
+		'transform | translateY(0%) > translateY(-100%) | 200ms ease-in'
+		'opacity | 1 > 0 | 200ms ease-in'
+	}
+}

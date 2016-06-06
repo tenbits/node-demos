@@ -1,0 +1,31 @@
+@import '/public/style/lesshat.less';
+
+.-collapser-header {
+	cursor: pointer;
+	
+	&:hover {
+		background: rgb(240,240, 240);
+	}
+	
+	&.__collapsed {
+		.-collapser-icon {
+			.rotate(-90deg);
+		}
+	}
+}
+
+.-collapser-icon {
+	.transition(~'transform 200ms linear');
+}
+
+.-collapser-dropdown {
+	
+	display: inline-block;
+	width: 100%;
+	line-height: 2em;
+	position:relative;
+	
+	&:active {
+		top: 1px;
+	}
+}

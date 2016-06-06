@@ -1,0 +1,111 @@
+.-app {
+	header {
+		
+		.row style='padding: 10px 0px;' {
+			.col-md-2 style='text-align: center' {
+				
+				button.btn.btn-primary x-signal='click:termin_Create' >
+					'Neuer Eintrag'
+				
+			}
+			
+			.col-md-1 {
+				button.btn.btn-default
+					x-signal='click: navToday'
+					disabled='~[bind: todayIsInRange ? "disabled"]' >
+						'Heute'
+			}
+			
+			.col-md-3 {
+				.btn-group {
+					button.btn.btn-default x-signal='click:navPrev' >
+						i
+							.glyphicon
+							.glyphicon-chevron-left
+							.__nav
+							style='position:relative; top: 2px;'
+							;
+						
+					button.btn.btn-default x-signal='click:navNext' >
+						i
+							.glyphicon
+							.glyphicon-chevron-right
+							.__nav
+							style='position:relative; top: 2px;'
+							;
+						
+				}
+				span {
+					' ' '~[bind: titleCalendarRange]'
+				}
+			}
+			.col-md-5 {
+				:radio #calendar-view-type .btn-group {
+					button.btn.btn-default.~[: range == 'day' ? 'active' ] name='day' >
+						'Tag'
+					button.btn.btn-default.~[: range == 'week' ? 'active' ] name='week' >
+						'Woche'
+					button.btn.btn-default.~[: range == 'month' ? 'active' ] name='month' >
+						'Monat'
+					button.btn.btn-default.~[: range == 'year' ? 'active' ] name='year' >
+						'Jahr'
+				}
+			}
+			
+			.col-md-1 style='text-align: right;' {
+				//button.btn.btn-default >
+				//	i.glyphicon.glyphicon-cog;
+					
+				:bs:dropdown.pull-right {
+					button.-collapser-dropdown.btn.btn-default >
+						i.glyphicon.glyphicon-cog;
+					
+					@select {
+						
+						if (user.role == "admin") {
+							a href='#' x-signal='click: gearImport' >
+								'Importieren'
+						}
+						
+						a href='/settings' >
+						
+							'Einstellungen'
+						a href='/logout' >
+							'Auslogen'
+						
+					}
+				}
+			}
+		}
+		
+	}
+	
+	.app-content {
+		.app-sidebar {
+			:sb-calendar;
+			
+			:sb-users;
+			
+			:sb-filters;
+		}
+		
+		.app-calendar {
+			
+			:calendar;
+		}
+	}
+}
+
+:ical-importer;
+
+:dialog #dialog-create {
+	:editor-appointment;
+	
+	:animation #dialog-show {
+		'opacity | 0 > 1 | 300ms ease-in'
+	}
+	
+	:animation #dialog-hide {
+		'opacity | 1 > 0 | 200ms ease-in'
+	}
+}

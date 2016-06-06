@@ -1,0 +1,53 @@
+
+.-calendar {
+	
+	:tabs #types-tab {
+		@panels {
+			.-calendar-day.-cl-tab name='day' {
+				
+				:cl-timeline single;
+				
+				:resize-handler >
+					.-calendar-days.day {
+	
+						+each (days) >			
+							:cl-singleday;
+					}
+			}
+			
+			.-calendar-week.-cl-tab name='week' {
+				
+				:cl-timeline;
+			
+				:resize-handler >
+					.-calendar-days.week{
+						
+						+each (week) >
+							:cl-day;
+					}
+			}
+			
+			.-calendar-month.-cl-tab name='month'{
+				:cl-month;
+			}
+			
+			.-calendar-year.-cl-tab name='year' {
+				
+				
+			
+					:double-scroller #js-year-scroller {
+						
+						div style='overflow:auto; overflow-y: hidden; ' >
+							div style='padding-top:1px;' >
+								' '
+								
+						:cl-year;
+					}
+					
+				
+			}
+		}
+	}
+}
+
+:popover #termin-popover;

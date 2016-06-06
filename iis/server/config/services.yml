@@ -1,0 +1,31 @@
+
+service:
+	location: /server/http/service/{0}.js
+
+services:
+	# path : controller
+	# '/auth/github': auth/github
+
+	'^/rest/:endpoint(users|user)':
+		controller: model/Users
+		#secure:
+		#	role: 'admin'
+	
+	'^/rest/:endpoint(dienste|dienst)':
+		controller: model/Dienste
+		#secure:
+		#	role: 'admin'
+	
+	'^/rest/:endpoint(termine|termin)':
+		controller: model/Termine
+		#secure:
+		#	role: 'admin'
+	
+	'^/rest/:endpoint(rtermine|rtermin)':
+		controller: model/RTermine
+		#secure:
+		#	role: 'admin'
+		
+	'^/rest/settings':
+		controller: model/Settings
+		

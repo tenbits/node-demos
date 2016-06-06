@@ -1,0 +1,4 @@
+node_modules/
+bower_components/
+cordova/TestApp/platforms/
+cordova/TestApp/plugins/

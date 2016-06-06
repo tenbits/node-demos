@@ -1,0 +1,47 @@
+@import '/public/style/lesshat.less';
+
+.-calendar {
+	position:relative;
+	
+	background: white;
+	color: #222;
+	
+	overflow: hidden;
+}
+
+.-cl-tab {
+	overflow: auto;
+}
+
+.-calendar-days {
+	padding-left: 60px;
+	
+	.box-sizing(border-box);
+}
+
+.-calendar-days {
+	
+	> .-cl-day {
+		width: 100%;
+	}
+}
+
+.-calendar-days {
+	
+	
+	&.week > .-cl-day {
+		width: 14.285714285714286%;
+	}
+	&.day > .-cl-day {
+		width: 100%;
+	}
+	
+	&.year > .-cl-day {
+		width: 8.333333333333334%;
+		
+	}
+}
+
+.-termin-pop {
+	font-size: .9em;
+}

@@ -1,0 +1,217 @@
+:template #dienstTemplate {
+	.row {
+					
+		.col-md-6 >
+			.form-group {
+				label > 'Datum'
+				:datepicker format='dd/MM/yyyy'>
+					:dualbind value='dienst.date' getter='getDate' setter='setDate';
+			}
+		
+		.col-md-6 >
+			.form-group {
+				
+				label style='display:inline-block; vertical-align: middle;'{
+						input type='checkbox' name='chbUntil' style=''>
+							:dualbind
+								value='dienstUntil.active'
+								x-signal='dom: dienstUntil_activeChanged'
+								;
+						' bis '
+					}
+					
+				:datepicker #dienstUntil_Datepicker format='dd/MM/yyyy' disabled >
+					:dualbind
+						value='dienstUntil.end'
+						getter='getDate'
+						setter='setDate'
+						x-signal='dom: dienstUntil_endChanged'
+						;
+				
+				
+			}
+	}
+	
+	.row {
+		.col-md-6 >
+			.form-group {
+				label > 'Dienst'
+				
+				:select.form-control data-live-search {
+					:dualbind value='dienstInfo.type' getter='getValue' setter='setValue';
+					
+					if (user.role == "admin") {
+						optgroup label='Schichte' >
+							+each (settings.dienst.types) >
+								option name='~[name]' data-type='schicht' >
+									'~[name]'
+					}
+					
+					optgroup label='Sonstige' >
+						+each (settings.dienst.tags) >
+							option name='~[name]' data-type='tag' >
+								'~[name]'
+				}
+			}
+	}
+	
+	.row {
+		.col-md-6 >
+			.form-group {
+				label > 'Kalendar'
+				
+				:select.form-control  data-live-search {
+					:dualbind value='dienst.username' getter=getValue setter=setValue;
+					
+					+each (user.calendars, user.getCalendars()) {
+						option name='~[username]' > '~[name] ~[surname] (~[username])'
+					}
+				}
+			}
+	}
+	
+	.row {
+		.form-group.btns-row {
+			button.btn.btn-primary x-signal='click: btnDienstSave'
+				> 'Speichern'
+				
+			button.btn.btn-danger.btn-sm x-signal='click: dialogCancel'
+				> 'Abbrechen'
+		}
+	}
+	
+}
+
+:template #terminTemplate {
+	.row >
+		.col-md-6 >
+			.form-group {
+				label > 'Titel'
+				input.form-control >
+					:dualbind value='termin.title';
+			}
+	hr;
+	.row {
+					
+		.col-md-6 >
+			.form-group {
+				label > 'Datum'
+				:datepicker format='dd/MM/yyyy hh:mm' >
+					:dualbind
+						value='termin.start'
+						getter='getDate'
+						setter='setDate'
+						x-signal='dom: terminStartChange'
+						;
+			}
+		.col-md-6 >
+			.form-group {
+				label > '~[bind: terminDuration]'
+				
+				:datepicker format='dd/MM/yyyy hh:mm' >
+				
+					:dualbind
+						value='termin.end'
+						getter='getDate'
+						setter='setDate'
+						x-signal='dom:terminEndChange'
+						;	
+			
+			}
+			
+	}
+	.row {
+		.col-md-6 >
+			.form-group {
+				label > 'Kalendar'
+				
+				:select.form-control  data-live-search multiple {
+					:dualbind value='termin.usernames' getter=getValue setter=setValue;
+					
+					+each(user.calendars, user.getCalendars()) {
+						option name='~[username]' > '~[name] ~[surname] (~[username])'
+					}
+				}
+			}
+		.col-md-6 {
+			label > ' '
+			input.form-control placeholder='Wo?' >
+					:dualbind value='termin.location';
+		}
+	}
+	
+	.row {
+		
+		.col-md-6 >
+			.checkbox {
+				
+				label {
+					input type='checkbox' name='chbRepeat' >
+						:dualbind value='repeat.active';
+					'Wiederholen'
+				}
+				
+				select style='display: ~[bind: repeat.active ? "inline" : "none" ]' {
+					option name=day > 'Tag'
+					option name=week > 'Woche'
+					option name=month > 'Monat'
+					option name=year > 'Jahr'
+					
+					:dualbind value='repeat.type';
+				}
+			}
+		
+		.col-md-6 {
+			
+			
+		}
+	}
+	
+	.row {
+		.form-group {
+			label >
+				'Beschreibung'
+			
+			textarea.form-control rows=4 >
+				:dualbind value='termin.description';
+		}
+	}
+	
+	hr;
+	.row {
+		.form-group.btns-row {
+			button.btn.btn-primary x-signal='click: btnTerminSave' >
+				'Speichern'
+				
+			button.btn.btn-danger.btn-sm x-signal='click: dialogCancel' >
+				'Abbrechen'
+		}
+	}
+	
+}
+
+
+.-editor-appointment {
+	
+	
+	
+	:radio.btn-group.entryType #radioTypes {
+		button.btn.btn-default.active name=dienst > 'Dienst'
+		button.btn.btn-default name=termin > 'Termin'
+	}
+	
+	:tabs #tabTypes {
+		@panels.-ap-editor {
+			.-ap-dienst.-show name=dienst >
+				:import #dienstTemplate;
+			
+			.-ap-termin name=termin >
+				:import #terminTemplate;
+		}
+		:animation #show {
+			'opacity | .5 > 1 | 300ms ease-in'
+			'transform | translateX(-20%) > translateX(0%) | 200ms ease-out'
+		}
+	}
+	
+}

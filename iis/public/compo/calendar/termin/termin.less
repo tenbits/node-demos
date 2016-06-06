@@ -1,0 +1,42 @@
+@import '/public/style/lesshat.less';
+
+.-cl-termin-dragger {
+	background: white;
+	opacity: .5;
+	cursor: move;
+	
+	position: absolute;
+	
+	right: .5%;
+	top: .5%;
+	bottom: .5%;
+	width: 2%;
+	max-width: 15px;
+	min-width: 5px;
+}
+
+
+.-cl-termin-resizer {
+	background: white;
+	opacity: .5;
+	cursor: n-resize;
+	
+	position: absolute;
+	
+	bottom: 1px;
+	left: 50%;
+	margin-left: -6px;
+	
+	height: 2px;
+	min-height: 5px;
+	max-height: 10px;
+	width: 5%;
+	max-width: 15px;
+	min-width: 5px;
+}
+
+
+.-cl-termin.dragging {
+	border: 1px solid #555 !important;
+	opacity: .7;
+}

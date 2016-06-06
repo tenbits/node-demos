@@ -1,0 +1,25 @@
+@import '/public/style/lesshat.less';
+
+@sideBarWidth: 200px;
+
+.app-content {
+	position: relative;
+	padding-left: @sideBarWidth + 10;
+	.box-sizing(border-box);
+}
+
+.app-sidebar {
+	max-width: @sideBarWidth;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.app-calendar {
+	position: relative;
+}
+
+.-app > header {
+	border-bottom: 1px solid #ebebeb;
+	margin-bottom: 10px;
+}

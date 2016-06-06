@@ -1,0 +1,119 @@
+/**
+ * cl-day Styles
+ *
+ * example:
+ *
+ * .-cl-day 
+ *
+ */
+@gridColor: #ddd;
+
+.-cl-day {
+	display: inline-block;
+	vertical-align: top;
+	
+}
+
+.-cl-title {
+	text-align: center;
+}
+.-cl-title-day {
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+	}
+	
+	&.__today {
+		font-weight: bold;
+	}
+}
+
+.-calendar-days.day > .-cl-day > .-cl-title-day {
+	cursor: default;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.-cl-day-container {
+	border: 1px solid @gridColor;
+	border-right: none;
+	position:relative;
+}
+
+.cl-day:last-child > .-cl-day-container {
+	border-right: 1px solid @gridColor;
+}
+
+.-cl-day-grid {
+	position: relative;
+}
+.-cl-day-grid.__today {
+	background-color: #f1f1f1;
+}
+
+.-cl-day-grid-cell {
+	height: 40px;
+	position:relative;
+	min-width: 60px;
+	
+	border-bottom: 1px solid #ddd;
+	
+	
+	&:after {
+		content: ' ';
+		border-bottom: 1px dotted @gridColor;
+		height: 0;
+		position:absolute;
+		top: 50%;
+		left: 0px;
+		width:100%;
+	}
+	
+	&.time-cell:after {
+		content: '';
+		display:none;
+	}
+}
+
+
+
+.-cl-dienste {
+	margin: 5px 0px;
+	white-space: nowrap;
+}
+.-cl-dienst {
+	position:relative;
+	width: 100%;
+	
+	&.column {
+		display: inline-block;
+	}
+	
+	> table {
+		border: none;
+		border-spacing: 0px;
+		padding: 0;
+		
+		td {
+			padding: 0;
+		}
+	}
+}
+.-cl-dienst-type {
+	text-shadow: 0px 1px 0px #000;
+	color: #fff;
+}
+
+.-cl-termin {
+	position: absolute;
+	overflow: hidden;
+	font-size: 11px;
+}
+
+.-cl-day-now {
+	position: absolute;
+	width: 100%;
+	height:0px;
+	border-bottom: 1px solid red;
+}

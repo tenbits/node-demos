@@ -1,0 +1,67 @@
+@import "/public/style/lesshat.less";
+
+.-popover-wrapper {
+	position: fixed;
+	top: 0px; left: 0px;
+	width: 100%; height: 100%;
+	z-index: 999990;
+	display: none;
+}
+
+.-popover {
+	display: none;
+	position:absolute;
+	
+	z-index: 999999;
+	
+	background: white;
+	border:1px solid #777;
+	
+	.box-sizing('border-box');
+	.box-shadow(~'0px 0px 3px #777');
+	
+	padding: 20px 10px;
+	
+	opacity: 0;
+}
+
+@sizeX: 5px;
+@sizeY: 8px;
+
+.-popover:before, .-popover:after {
+	content: ' ';
+	width: 0;
+	height: 0;
+	position: absolute;
+	pointer-events: none;
+	border: solid transparent;
+	left: 50%;
+}
+
+
+.-popover-top:before {
+	border-width: @sizeY @sizeY 0 @sizeY;
+	border-color: #777 transparent transparent transparent;
+	margin-left: -@sizeY/2;
+	bottom: -@sizeY;
+} 
+.-popover-top:after {
+	border-width: @sizeX @sizeX 0 @sizeX;
+	border-color: white transparent transparent transparent;
+	margin-left: -@sizeX/2;
+	bottom: -@sizeX;
+}
+
+.-popover-bottom:before {
+	border-width: 0 @sizeY @sizeY @sizeY;
+	border-color: transparent transparent #777 transparent;
+	margin-left: -@sizeY/2;
+	top: -@sizeY;
+}
+
+.-popover-bottom:after {
+	border-width: 0 @sizeX @sizeX @sizeX;
+	border-color: transparent transparent white transparent;
+	margin-left: -@sizeX/2;
+	top: -@sizeX;
+}
