@@ -1,14 +1,9 @@
-var User = require('./user');
+var MyUser = require('./user');
 
 function run () {
 
-	var user = new User('Foo');
+	var user = new MyUser('Foo');
 	user.dump();
 }
 
-
-if (module.parent) {
-	module.exports = run;
-} else {
-	run();
-}
+run();

@@ -1,7 +1,7 @@
 UTest({
 	'Default function parameters': {
 		'default string value' () {			
-			function Echo(message = 'empty') {
+			function Echo(message = 'empty') {				
 				return message;
 			}
 
@@ -244,7 +244,7 @@ UTest({
 			},
 		}
 	},
-	'[Variables': {
+	'Variables': {
 		'let is block scoped' () {
 			let a = 1;
 			{
