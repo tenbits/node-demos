@@ -1,0 +1,439 @@
+UTest({
+	'Default function parameters': {
+		'default string value' () {			
+			function Echo(message = 'empty') {
+				return message;
+			}
+
+			eq_(Echo(), 'empty');
+		},
+		'supports expression' () {
+			function getDefaultValue(name) {
+				return `${name} is empty`
+			}
+			function Echo(message = getDefaultValue('message')) {
+				return message;
+			}
+			eq_(Echo(), 'message is empty');	
+		},
+		'passing undefined uses default value' () {
+			function Add(a = 1, b = 2) {
+				return a + b;
+			}
+			eq_(Add(undefined, 4), 5);	
+		},		
+	},
+	'Rest parameters': {
+		'simple array' () {
+			function Echo(...arr) {
+				return arr;
+			}
+
+			deepEq_(Echo(1, 2, 3), [1, 2, 3]);
+		}
+	},
+	'Spread operator': {
+		'in function calls' () {
+			function Add(a, b, c) {
+				return a + b + c;
+			}
+
+			var numbers = [1, 2, 3];
+			deepEq_(Add(...numbers), 6);
+		},
+		'in array literals' () {
+			var numbers = [1, 2, 3];
+			var cloned = [...numbers];
+			deepEq_(numbers, cloned);
+		},
+		'in array literals splits string to chars' () {
+			var letters = [...'foo'];
+			deepEq_(letters, ['f', 'o', 'o'])
+		},
+		'before generator' () {
+			function * numbers () {
+				yield 1;
+				yield 2;
+			}
+			var arr = [...numbers(), 3];
+			deepEq_(arr, [1, 2, 3]);			
+		}
+	},
+	'Object literal extensions': {
+		'computed property' () {
+			var name ='foo';
+			var bar = { [name] : name };
+
+			deepEq_(bar, { foo: 'foo'})
+		},
+		'shorthand properties' () {
+			var foo = 'lorem', bar = 'ipsum';
+			var obj = { foo, bar };
+
+			deepEq_(obj, { foo: 'lorem', bar: 'ipsum'});
+		},
+		'shorthand methods' () {
+			var foo = {
+				myFunction () { return 1 }
+			};
+			eq_(foo.myFunction(), 1);
+		},
+		'computed shorthand methods' () {
+			var methodName = 'myFunction';
+			var foo = {
+				[methodName] () { return 2 }
+			};
+			eq_(foo[methodName](), 2);	
+		},
+		'computed accessors' () {
+			var a = 'foo';
+			var obj = {
+				get [a] () { return 'Is ' + a },
+				set [a] (value) { a = value; }
+			};
+			eq_(obj.foo, 'Is foo');
+
+			obj.foo = 'bar';
+			eq_(obj.foo, 'Is bar');
+		},		
+	},
+	'Loops: for..of': {
+		'iterate over an array' () {
+			var arr = [1, 2, 3],
+				clone = [];
+			for(var x of arr) {
+				clone.push(x);
+			}
+			deepEq_(arr, clone);
+		},
+		'iterate over a string' () {
+			var foo = 'foo',
+				clone = '';
+
+			for(var c of foo) {
+				clone += c;
+			}
+			eq_(foo, clone);
+		},
+		'iterate over a generator function' () {
+			function * numbers () {
+				yield 1; yield 2;
+			}
+			var clone = [];
+			for(var x of numbers()) {
+				clone.push(x);
+			}
+			deepEq_(clone, [1, 2]);
+		}
+	},
+	'template literals': {
+		'multiline string' () {
+			var str = `
+				Lorem
+				Ipsum
+			`;
+			has_(str, /\s+Lorem\s+Ipsum\s+/);
+		},
+		'interpolation' () {
+			var age = 42;
+			var str = `Age is ${ age + 1 }`;
+			eq_(str, 'Age is 43');
+		},
+		'tag function' () {
+			function test(strings, ...values) {
+				return { strings, values }
+			}
+
+			var age = 42;
+			var obj = test`Age is ${age + 1}`;
+
+			deepEq_(obj.strings, ['Age is ', '']);
+			deepEq_(obj.values, [43]);
+		}
+	},
+	'Regex': {
+		'sticky' () {
+			var rgx = /b/y;
+			var str = 'abbcc'
+
+			eq_(rgx.test(str), false);
+
+			rgx.lastIndex = 1;
+			eq_(rgx.test(str), true);
+
+			eq_(rgx.lastIndex, 2);
+			eq_(rgx.test(str), true);
+
+			eq_(rgx.lastIndex, 3);
+			eq_(rgx.test(str), false);
+		},
+		'code points' () {
+			var str = '𝌆';
+			eq_(str.length, 2);
+		}
+	},
+	'Destructing': {
+		'Arrays': {
+			'simple array value extractor' () {
+				var [a, b] = [1, 2];
+				eq_(a, 1);
+				eq_(b, 2);
+			},
+			'deep array destructing' () {
+				var [a, [, b]] = [1, [2, 3]];
+				eq_(a, 1);
+				eq_(b, 3);
+			},
+			'in for of loop' () {
+				for(var [a, b] of [ [1, 2] ]);
+				eq_(a + b, 3)
+			},
+			'should swap variable values' () {
+				var a = 1, b = 2;
+
+				[a, b] = [b, a];
+				eq_(a, 2);
+				eq_(b, 1);
+			}			
+		},
+		'Strings': {
+			'should get letters' () {
+				var [a, b, c] = 'foo';
+				eq_(a, 'f');
+				eq_(b, 'o');
+				eq_(b, c);
+			}
+		},
+		'Generators': {
+			'simple generator destructing' () {
+				function * numbers() {
+					yield 1; yield 2;
+				}
+				var [a, b] = numbers();
+				eq_(a + b, 3);
+			}
+		},
+		'Objects': {
+			'should extract value to variables' () {
+				var { a, b, c: c1} = { a: 1, b: 2, c: 3};
+				eq_(a + b + c1, 6);
+			},
+			'should extract with defaults' () {
+				var { a = 1, b = 2} = {a: 100};
+				eq_(a + b, 102);
+			},
+			'should get function from primitive' () {
+				var {toFixed} = 1;
+				eq_(toFixed, Number.prototype.toFixed);
+			},
+			'computed property' () {
+				var name = 'myProp';
+				var { [name]: foo} = { myProp: 42 };
+				eq_(foo, 42);
+			},
+			'extract nested values' () {
+				var user = {
+					name: 'Foo',
+					university: {
+						id: 1,
+						name: 'Leipzig'
+					}
+				};
+				var { university: {name: uni}} = user;
+				eq_(uni, 'Leipzig')
+			},
+		}
+	},
+	'[Variables': {
+		'let is block scoped' () {
+			let a = 1;
+			{
+				let a = 2;
+				eq_(a, 2);
+			}
+			eq_(a, 1);
+		},
+		'const is block scoped' () {
+			if (true) {
+				const b = 1;
+			}
+			eq_(typeof b, 'undefined')			
+		},
+		'not possible to reassign' () {
+			const a = 4;
+			assert.throws(() => {
+				a = 3;
+			})
+		},
+		'grab the context': {
+			'old example with `var`' () {
+				var fns = [];
+				for (var key in {a: null, b: null}) {
+					fns.push(function(){
+						return key;
+					});
+				}
+				eq_(fns[0](), 'b');
+				eq_(fns[1](), 'b');
+			},
+			'using const in same `for..in`-loop' () {
+				var fns = [];
+				for (const key in {a: null, b: null}) {
+					fns.push(function(){
+						return key;
+					});
+				}
+				eq_(fns[0](), 'a');
+				eq_(fns[1](), 'b');	
+			},
+			'using let in `for`-loop' () {
+				var fns = [];
+				for (let i = 0; i < 2; i++) {
+					fns.push(function(){
+						return i;
+					});
+				}
+				eq_(fns[0](), 0);
+				eq_(fns[1](), 1);
+			}
+		}
+	},
+	'Functions': {
+		'arrow functions': {
+			'lexical `this` binding' () {
+				var obj = {
+					name: 'a',
+					run: function(){
+						eq_(this.name, 'a');
+
+						var isClassicFn = function(){
+							notEq_(this.name, 'a');
+						};
+						isClassicFn();
+
+						var isThisBindedFn = () => {
+							eq_(this.name, 'a');	
+						};
+						isThisBindedFn();
+
+						// Try to redefine functions context
+						isThisBindedFn.call({});
+					}
+				};
+				obj.run();
+			},
+			'has no arguments, but can have spread operator' () {
+				function run () {
+					var fn = (...args) => {
+						deepEq_(arguments, [1, 2]);
+						deepEq_(args, [3, 4]);
+					};
+					fn(3, 4);
+				}
+				run(1, 2);
+			}
+		},
+		'generator functions' () {
+			function * numbers () {
+				var a = yield 1;
+				var d = yield a;
+				return d;
+			}
+
+			var gen = numbers(), next;
+
+			next = gen.next('Foo');
+			deepEq_(next, {value: 1, done: false });
+
+			next = gen.next('Bar');
+			deepEq_(next, {value: 'Bar', done: false });
+
+			next = gen.next('Qux');
+			deepEq_(next, {value: 'Qux', done: true });
+		}
+	},
+	'Class': {
+	 	'simple class declaration' () {
+			class User {
+				constructor (name) {
+					this.name = name;
+				}
+				static validate (user) {
+					return user.name != null;
+				}
+			};
+
+			var user = new User('foo');
+			eq_(user.name, 'foo');
+			eq_(User.validate(user), true);
+		},
+		'extends' () {
+			class User {
+				constructor (name) {
+					this.name = name;
+				}
+				static validate (user) {
+					return user.name != null;
+				}
+			};
+			class Admin extends User{
+				constructor(name) {
+					super(name);
+					this.role = 'admin';
+				}
+			};
+
+			var user = new Admin('foo');
+
+			eq_(user.name, 'foo');
+			eq_(user.role, 'admin');
+		},
+		'extends Array' () {
+			class LetterCollection extends Array {
+				toUpper() {
+					var i = this.length;
+					while(--i > -1) {
+						this[i] = this[i].toUpperCase();
+					}
+				}
+			}
+
+			var letters = new LetterCollection;
+			letters.push('a', 'b');
+			letters.toUpper();
+			var arr = Array.from(letters);
+			deepEq_(arr, ['A', 'B']);
+		}
+	},
+	'Html comments' () {
+		var a = 2 <!-- Is Comment :)
+		eq_(a, 2); 
+	},
+
+	'Built ins': {
+		'Map' () {
+			var map = new Map;
+			var key = {};
+			var value = {};
+
+			map.set(key, value);
+
+			eq_(map.has({}), false);
+			eq_(map.has(key), true);
+			eq_(map.get(key), value);
+			eq_(map.size, 1);
+		},
+		'Proxy' () {
+			var obj = {};
+			var proxy = new Proxy(obj, {
+				get: function (targetObj, name) {
+					eq_(obj, targetObj);
+					eq_(name, 'foo');
+					return 5;
+				}
+			});
+			eq_(proxy.foo, 5);
+		}
+	}
+
+});

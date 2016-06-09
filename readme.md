@@ -1,7 +1,5 @@
 ### NodeJS Demos
 
-_demos for the Dresden Workshop_
-
 - browserify
 - commonapi
 - es6

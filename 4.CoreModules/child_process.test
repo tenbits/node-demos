@@ -1,0 +1,11 @@
+UTest({
+	'should load self as source' (done) {
+		var exec = require('child_process').exec;
+
+		exec('ipconfig', (error, result) => {
+			eq_(error, null);
+			has_(result, 'Windows IP Configuration')
+			done();
+		});
+	}
+})

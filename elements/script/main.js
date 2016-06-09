@@ -2,8 +2,8 @@ include
 .routes( {
 	compo: '/script/{0}/{0}.js'
 })
+.js('/node_modules/jquery/dist/jquery.js')
 .js({
-	atma_ruqq: ['dom/jquery'],
 	atma: ['mask'],
 	compo: [ 'resolver', 'elements' ]
 }).ready(function(){

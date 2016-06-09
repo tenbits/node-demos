@@ -1,0 +1,10 @@
+UTest({
+	'should load self as source' (done) {
+		var fs = require('fs');
+		fs.readFile('fs.test', 'utf8', (error, source) => {
+			eq_(error, null);
+			has_(source, 'should load self as source')
+			done();
+		})
+	}
+})

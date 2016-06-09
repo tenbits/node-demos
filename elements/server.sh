@@ -1,1 +1,1 @@
-includejs server index.dev.html
+atma server index.dev.html

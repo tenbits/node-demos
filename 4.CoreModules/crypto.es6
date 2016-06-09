@@ -11,7 +11,7 @@ UTest({
 		eq_(str.length, 32);
 	},
 	
-	'subscibe' () {
+	'subscribe' () {
 		var message = 'Hello',
 			key = 'asdasdasd';
 		
