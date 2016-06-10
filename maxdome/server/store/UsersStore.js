@@ -1,6 +1,7 @@
 const FILENAME = './users.json';
 const fs = require('fs');
 
+
 class UsersStore {
 	getAll () {
 		return new Promise((resolve, reject) => {

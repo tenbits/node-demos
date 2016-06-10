@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle 
+  
+  body
+    h1= text 
+    .panel
+      form(action='/login', method='post')
+        .form-group
+          label.
+            UserName
+          input.form-control(type=text,name=name,id=name)
+
+        .form-group
+          label.
+            Kennwort
+          input.form-control(name=password,type=password,id=name) 
+
+        button.btn.btn-primary(type=submit).
+          Login

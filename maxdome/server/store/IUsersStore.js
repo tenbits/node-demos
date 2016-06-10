@@ -1,1 +1,1 @@
-module.exports = require('./UsersStoreJson');
+module.exports = new (require('./UsersStoreDb'));

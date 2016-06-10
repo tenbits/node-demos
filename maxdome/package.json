@@ -4,15 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel": "^6.5.2",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-polyfill": "^6.9.1",
+    "babel-register": "^6.9.0",
+    "body-parser": "^1.15.1",
     "bootstrap": "^3.3.6",
     "bootstrap-material-design": "^0.5.10",
+    "cookie-parser": "^1.4.3",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "guid": "0.0.12",
-    "jquery": "^2.2.4"
+    "jade": "^1.11.0",
+    "jquery": "^2.2.4",
+    "mongoose": "^4.4.20",
+    "node-promisify": "^1.2.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "promisify-node": "^0.4.0",
+    "socket.io": "^1.4.6"
   }
 }

@@ -1,5 +1,21 @@
-UTest({
-	'should load users' () {
-		
-	}
-})
+var assert = require('assert');
+
+describe('Test the users json store', function(){
+	var Store = require('./UsersStoreJson');
+	var store = new Store();
+
+	it('should load users', function(done){
+		store.getAll().then(users => {
+			assert.equal(users.length, 1);
+			assert.equal(users[0].name, 'John');
+			done();
+		}).catch(error => console.error(error))
+	});
+
+	it('should save user', function(done){
+		store.upsert({name: 'Bob'}).then(user => {
+			assert(user.id != null);
+			done();
+		}).catch(error => console.error(error));
+	})
+});
